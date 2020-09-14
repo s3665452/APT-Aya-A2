@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <memory>
+#include "Types.h"
+#include "Player.h"
 
 #define TURNS 5
 
@@ -8,6 +11,7 @@ void openMenu();
 void getMenuChoice();
 void printCredits();
 void exitGame();
+void newGame();
 
 int main(void){
 
@@ -51,8 +55,7 @@ void getMenuChoice(){
     }
 
     if(choice == 1){
-        std::cout << "new game (to do)" << std::endl;
-        openMenu();
+        newGame();
     }
     else if(choice == 2){
         std::cout << "load game (to do)" << std::endl;
@@ -69,4 +72,24 @@ void getMenuChoice(){
         std::cout << "Invalid Input" << std::endl;
         getMenuChoice();
     }
+}
+
+void newGame(){
+    std::string playerNameA;
+    std::string playerNameB;
+
+    std::cout << "Starting a New Game" << std::endl << std::endl;
+    std::cout << "Enter a name for player 1" << std::endl << "> ";
+    std::cin >> playerNameA;
+    std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
+    std::cin >> playerNameB;
+
+    // std::shared_ptr<Player> playerA = std::make_shared<Player>(playerNameA);
+    // std::shared_ptr<Player> playerB = std::make_shared<Player>(playerNameB);
+    Player* playerA = new Player(playerNameA);
+    Player* playerB = new Player(playerNameB);
+    std::cout << std::endl << "Let's Play!" << std::endl;
+
+    std::cout << playerA->getName() << std::endl;
+    std::cout << playerB->getName() << std::endl;
 }
