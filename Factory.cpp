@@ -1,4 +1,5 @@
 #include <vector>
+#include "Tile.h"
 
 class Factory{
     private:
@@ -8,6 +9,12 @@ class Factory{
         Tile& remove();
 }
 
-void add(Tile&){
-    tiles.push_back(Tile&);
+void add(){
+    tiles.push_back(Tile);
+}
+
+Tile& remove(){
+    for(int i=0;i<tiles.size();++i){
+        tiles[i].clear();
+    }
 }
