@@ -1,20 +1,27 @@
-#include <vector>
+#include "Factory.h"
 #include "Tile.h"
 
-class Factory{
-    private:
-        std::vector<Tile> tiles;
-    public:
-        void add(Tile&);
-        Tile& remove();
+Factory::Factory() {
+
 }
 
-void add(){
-    tiles.push_back(Tile);
+Factory::~Factory() {
+
 }
 
-Tile& remove(){
-    for(int i=0;i<tiles.size();++i){
-        tiles[i].clear();
-    }
+Factory::Factory(const Factory&) {
+    //todo
+}
+
+void Factory::add(Tile argTile) {
+    allTiles->push_back(argTile);
+}
+
+void Factory::remove(int i) {
+    //error>>>>>>>allTiles[i]->clear();
+    
+}
+
+int Factory::getSize() {
+    return allTiles->size();
 }
