@@ -1,14 +1,12 @@
 #ifndef NODE
 #define NODE
 
-#include "Tile.h"
-
 class Node {
 public:	
-    Node(Tile* tilebag, Node* next);
+    Node(char tile, Node* next);
 	Node(Node& other);
-
-    Tile* tilebag;
+    
+    char tile;
     Node* next;
 };
 

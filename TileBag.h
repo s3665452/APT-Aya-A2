@@ -3,38 +3,40 @@
 
 #include <vector>
 #include <iostream>
-#include "ColorTile.h"
 
 #include "Node.h"
 
-class LinkedList {
+class TileBag {
 public:
-   LinkedList();
-   ~LinkedList();
+   TileBag(char* tileBagOrder);
+   TileBag();
+   ~TileBag();
 
    int size();
 
-   Tile* getFirstTile();
+   char getFirstTile();
 
     /**
     * Add the tile to the front of the Linked List
     */
-   void addTile_front(Tile* tilebag);
+   void addTile_front(char tile);
 
     /**
     * Add the tile to the back of the Linked List
     */
-   void addTile_back(Tile* tilebag);
+   void addTile_back(char tile);
 
     /**
     * Remove the tile at the front of the Linked List
     */
-   bool removeTile(Tile* tilebag);
+   bool removeTile_front();
 
     /**
     * Removes all tiles from the Linked List
     */
    void clear(); 
+
+   void printAll();
 
 private:
    Node* head;

@@ -4,6 +4,7 @@
 #include <memory>
 #include "Types.h"
 #include "Player.h"
+#include "TileBag.h"
 
 #define TURNS 5
 
@@ -77,6 +78,11 @@ void getMenuChoice(){
 void newGame(){
     std::string playerNameA;
     std::string playerNameB;
+    TileBag* tileBag = new TileBag();
+   //Testing
+   tileBag->printAll();
+
+    std::cout << std::endl;
 
     std::cout << "Starting a New Game" << std::endl << std::endl;
     std::cout << "Enter a name for player 1" << std::endl << "> ";
@@ -84,12 +90,11 @@ void newGame(){
     std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
     std::cin >> playerNameB;
 
-    // std::shared_ptr<Player> playerA = std::make_shared<Player>(playerNameA);
-    // std::shared_ptr<Player> playerB = std::make_shared<Player>(playerNameB);
     Player* playerA = new Player(playerNameA);
     Player* playerB = new Player(playerNameB);
     std::cout << std::endl << "Let's Play!" << std::endl;
 
     std::cout << playerA->getName() << std::endl;
     std::cout << playerB->getName() << std::endl;
+ 
 }
