@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <memory>
+#include <iostream>
 
 Player::Player(std::string playerName) {
     this->name = playerName;
@@ -30,4 +31,14 @@ Player::~Player() {
 
 std::string Player::getName() {
     return this->name;
+}
+
+int Player::getScore() {
+    return this->score;
+}
+
+void Player::printInfo() {
+    std::cout <<"Name: "<< this->name << std::endl;
+    std::cout <<"Score: "<< this->score << std::endl;
+    std::cout << std::endl;
 }

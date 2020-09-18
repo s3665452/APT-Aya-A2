@@ -35,7 +35,6 @@ public:
     * Removes all tiles from the Linked List
     */
    void clear(); 
-
    void printAll();
 
 private:
