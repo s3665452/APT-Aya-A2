@@ -37,4 +37,10 @@ void createFactoryHeader() {
     Factory cf = Factory();
     cf.setIsFactory(true);
 
+    //Testing 
+    f1.remove();
+    f1.printTiles();
+
+    f2.printTiles();
+
 }

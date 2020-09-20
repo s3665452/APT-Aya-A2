@@ -26,9 +26,12 @@ int Factory::getSize() {
 }
 
 void Factory::setIsFactory(bool isFactory) {
-    this->isFactory = isFactory; //error
+    this->isFactory = isFactory; 
 }
 bool Factory::getIsFactory () {
-    return this->isFactory; //error
+    return this->isFactory; 
+}
+std::string Factory::printTiles(){
+    std::cout << factoryTiles << std::endl;
 }
 

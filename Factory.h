@@ -10,6 +10,7 @@ class Factory {
         int getSize();
         void setIsFactory(bool isFactory);
         bool getIsFactory ();
+        std::string printTiles();
     private:
         std::vector<char> * factoryTiles;
         bool isFactory;
