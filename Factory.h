@@ -5,10 +5,14 @@ class Factory {
     public:
         Factory();
         ~Factory();
-        Factory(const Factory&);
-        void add(TileBag);
-        void remove(int i);
+        void add(char tileColor);
+        void remove();
         int getSize();
+        void setIsFactory(bool isFactory);
+        bool getIsFactory ();
     private:
-        std::vector<TileBag> * allTiles;
+        std::vector<char> * factoryTiles;
+        bool isFactory;
+
+
 };

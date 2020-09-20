@@ -3,25 +3,32 @@
 
 Factory::Factory() {
 
+    this->isFactory = false;
+
 }
 
 Factory::~Factory() {
 
 }
 
-Factory::Factory(const Factory&) {
-    //todo
+
+void Factory::add(char tile) {
+    factoryTiles->push_back(tile);
 }
 
-void Factory::add(TileBag tileBag) {
-    //allTiles->push_back(tileBag->getFirstTile());
-}
-
-void Factory::remove(int i) {
-    //error>>>>>>>allTiles[i]->clear();
-    
+void Factory::remove(){
+        factoryTiles->clear();
+ 
 }
 
 int Factory::getSize() {
-    return allTiles->size();
+    return factoryTiles->size();
 }
+
+void setIsFactory(bool isFactory) {
+    this->isFactory = isFactory; //error
+}
+bool getIsFactory () {
+    return this->isFactory; //error
+}
+
