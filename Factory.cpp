@@ -25,10 +25,10 @@ int Factory::getSize() {
     return factoryTiles->size();
 }
 
-void setIsFactory(bool isFactory) {
+void Factory::setIsFactory(bool isFactory) {
     this->isFactory = isFactory; //error
 }
-bool getIsFactory () {
+bool Factory::getIsFactory () {
     return this->isFactory; //error
 }
 
