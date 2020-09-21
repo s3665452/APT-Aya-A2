@@ -6,6 +6,9 @@
 
 class Player {
 public:
+    Store store;
+    Board board;
+    Broken broken;
     // Constructor /Deconstructor
     Player(std::string playerName);
     ~Player();
@@ -24,9 +27,7 @@ private:
 
     std::string name;
     int score;
-    Store store;
-    Board board;
-    Broken broken;
+
 
 
 };

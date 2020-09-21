@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "TileBag.h"
 #include "string"
+#include "Factories.h"
 
 #ifndef GAMEENGINE
 #define GAMEENGINE
@@ -13,14 +14,17 @@ public:
     GameEngine();
     //Deconstructor
     ~GameEngine();
-    void NewGame();
-    void LoadGame();
+    void newGame();
+    void loadGame();
+    void printFactories();
+    void printMosaic(Player& player);
 
 private:
     int currentTurn;
     Player* playerA;
     Player* playerB;
     TileBag* tileBag;
+    Factories* factories;
 };
 
 #endif //GAMEENGINE

@@ -5,6 +5,7 @@
 #include "Types.h"
 #include "Player.h"
 #include "TileBag.h"
+#include "GameEngine.h"
 
 #define TURNS 5
 
@@ -56,7 +57,8 @@ void getMenuChoice(){
     }
 
     if(choice == 1){
-        newGame();
+        GameEngine* gameEngine = new GameEngine();
+        gameEngine->newGame();
     }
     else if(choice == 2){
         std::cout << "load game (to do)" << std::endl;
@@ -75,26 +77,26 @@ void getMenuChoice(){
     }
 }
 
-void newGame(){
-    std::string playerNameA;
-    std::string playerNameB;
-    TileBag* tileBag = new TileBag();
-   //Testing
-   tileBag->printAll();
+// void newGame(){
+//     std::string playerNameA;
+//     std::string playerNameB;
+//     TileBag* tileBag = new TileBag();
+//    //Testing
+//    tileBag->printAll();
 
-    std::cout << std::endl;
+//     std::cout << std::endl;
 
-    std::cout << "Starting a New Game" << std::endl << std::endl;
-    std::cout << "Enter a name for player 1" << std::endl << "> ";
-    std::cin >> playerNameA;
-    std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
-    std::cin >> playerNameB;
+//     std::cout << "Starting a New Game" << std::endl << std::endl;
+//     std::cout << "Enter a name for player 1" << std::endl << "> ";
+//     std::cin >> playerNameA;
+//     std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
+//     std::cin >> playerNameB;
 
-    Player* playerA = new Player(playerNameA);
-    Player* playerB = new Player(playerNameB);
-    std::cout << std::endl << "Let's Play!" << std::endl;
+//     Player* playerA = new Player(playerNameA);
+//     Player* playerB = new Player(playerNameB);
+//     std::cout << std::endl << "Let's Play!" << std::endl;
 
-    std::cout << playerA->getName() << std::endl;
-    std::cout << playerB->getName() << std::endl;
+//     std::cout << playerA->getName() << std::endl;
+//     std::cout << playerB->getName() << std::endl;
  
-}
+// }
