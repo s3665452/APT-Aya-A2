@@ -35,31 +35,41 @@ void GameEngine::newGame() {
 
     std::cout << playerA->getName() << std::endl;
     std::cout << playerB->getName() << std::endl;
-    // printMosaic(*playerA);
+     printMosaic(*playerA);
     // printMosaic(*playerB);
+    
 }
 
 void GameEngine::printFactories() {
 
 }
-// Print mosaic for a player (incomplete)
+
+// Print mosaic for a player
 void GameEngine::printMosaic(Player& player) {
     std::cout << std::endl << "Mosaic for " << player.getName() << ":" << std::endl;
     for(int i = 0; i < MOSAIC_DIM; i++) {
+        // Print row number
         std::cout << i + 1 << ":";
-        for(int n = MOSAIC_DIM - i - 1; n < 0; n--) {
+        // Print white space before mosaic row
+        for(int n = MOSAIC_DIM - i - 1; n > 0; n--) {
             std::cout << "  ";
         }
+        // Print store row
         for(int n = 0; n < i + 1; n++) {
-            std::cout << " " << player.store[i][n] << " ||";
+            std::cout << " " << player.store[i][n];  
         }
+        std::cout << " ||";
+        // Print board row
         for(int n = 0; n < MOSAIC_DIM; n++) {
             std::cout << " " << player.board[i][n];
         }
         std::cout << std::endl;
+       
     }
+    // Print broken
     std::cout << "broken:";
-    for(int i = 0; i < MOSAIC_DIM; i++) {
+    int brokenSize = player.broken.size();
+    for(int i = 0; i < brokenSize; i++) {
         std::cout << " " << player.broken[i]; 
     }
     std::cout << std::endl << std::endl;

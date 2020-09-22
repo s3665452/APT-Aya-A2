@@ -10,12 +10,14 @@ Player::Player(std::string playerName) {
     for (int i = 0; i != MOSAIC_DIM; ++i) {
         store[i] = new char[i+1];
         for (int n = 0; n != i+1; ++n) {
+           // std::cout << "store " << i << n; 
             store[i][n] = '.';
         }
     }
 
     for (int i = 0; i != MOSAIC_DIM; ++i){
         for (int n = 0; n != MOSAIC_DIM; ++n){
+          //   std::cout << "board " << i << n; 
             board[i][n] = '.';
         }
     }
