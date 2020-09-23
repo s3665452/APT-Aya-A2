@@ -14,7 +14,7 @@ public:
     GameEngine();
     //Deconstructor
     ~GameEngine();
-    void newGame();
+    void newGame(bool startgame);
     void loadGame();
     void printFactories();
     void printMosaic(Player& player);

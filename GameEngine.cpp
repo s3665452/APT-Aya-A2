@@ -15,29 +15,40 @@ GameEngine::~GameEngine() {
     delete factories;
 }
 
-void GameEngine::newGame() {
+void GameEngine::newGame(bool startgame) {
     std::string playerNameA;
     std::string playerNameB;
-   //Testing
-   this->tileBag->printAll();
 
-    std::cout << std::endl;
+    //Testing
+    this->tileBag->printAll();
 
-    std::cout << "Starting a New Game" << std::endl << std::endl;
-    std::cout << "Enter a name for player 1" << std::endl << "> ";
-    std::cin >> playerNameA;
-    std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
-    std::cin >> playerNameB;
+    bool loadGame = false;
+    // start a new game
+    if (startgame == true){
+        std::cout << "Starting a New Game" << std::endl << std::endl;
+        std::cout << "Enter a name for player 1" << std::endl << "> ";
+        std::cin >> playerNameA;
+        std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
+        std::cin >> playerNameB;
+        this->playerA = new Player(playerNameA);
+        this->playerB = new Player(playerNameB);
+        std::cout << std::endl << "Let's Play!" << std::endl;
 
-    this->playerA = new Player(playerNameA);
-    this->playerB = new Player(playerNameB);
-    std::cout << std::endl << "Let's Play!" << std::endl;
+        std::cout << playerA->getName() << std::endl;
+        std::cout << playerB->getName() << std::endl;
+    } else {
+        //continue if the game is a load game
+        std::cout << "Azul game successfully loaded" << std::endl;
+        std::cout <<  "<game play continues from here>"<< std::endl;
+        std::cout << std::endl;
+        loadGame = true;
+}
+        std::cout << std::endl;
+        std::cout << "=== Start Round ===";
+        std::cout << std::endl;
 
-    std::cout << playerA->getName() << std::endl;
-    std::cout << playerB->getName() << std::endl;
-     printMosaic(*playerA);
-    // printMosaic(*playerB);
-    
+        printMosaic(*playerA);
+        printMosaic(*playerB);
 }
 
 void GameEngine::printFactories() {

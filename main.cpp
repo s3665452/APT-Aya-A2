@@ -58,7 +58,7 @@ void getMenuChoice(){
 
     if(choice == 1){
         GameEngine* gameEngine = new GameEngine();
-        gameEngine->newGame();
+        gameEngine->newGame(true);
     }
     else if(choice == 2){
         std::cout << "load game (to do)" << std::endl;
