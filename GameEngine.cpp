@@ -20,9 +20,9 @@ void GameEngine::newGame(bool startgame) {
     std::string playerNameB;
 
     //Testing
-    this->tileBag->printAll();
+    //this->tileBag->printAll();
 
-    bool loadGame = false;
+   // bool loadGame = false;
     // start a new game
     if (startgame == true){
         std::cout << "Starting a New Game" << std::endl << std::endl;
@@ -41,18 +41,28 @@ void GameEngine::newGame(bool startgame) {
         std::cout << "Azul game successfully loaded" << std::endl;
         std::cout <<  "<game play continues from here>"<< std::endl;
         std::cout << std::endl;
-        loadGame = true;
+       // loadGame = true;
 }
         std::cout << std::endl;
         std::cout << "=== Start Round ===";
         std::cout << std::endl;
 
+        //Test
+        printFactories();
         printMosaic(*playerA);
+        printFactories();
         printMosaic(*playerB);
 }
 
 void GameEngine::printFactories() {
-
+    std::cout << "Factories:" << std::endl;
+    for(int i = 0; i < FACTORYNUMBER; i++) {
+        std::cout << i << ":";
+        for(long unsigned int n = 0; n < factories->getFactory(i).size(); n++) {
+            std::cout << " " << factories->getFactory(i)[n];
+        }
+        std::cout << std::endl;
+    }
 }
 
 // Print mosaic for a player

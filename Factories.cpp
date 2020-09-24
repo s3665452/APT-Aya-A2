@@ -22,9 +22,19 @@ void Factories::fillFactories(TileBag& tileBag) {
     // Populate factories with tiles from the tile bag
     for(int i = 1; i < FACTORYNUMBER; i++) {
         for(int n = 0; n < FACTORYSIZE; n++){
-            factories[i].push_back(tileBag.getFirstTile());
+            factories[i].push_back(tileBag.front());
+            tileBag.dequeue();
         }
     }
+}
+
+// Return true if all factories are empty
+bool Factories::isEmpty() {
+    bool ret = true;
+    for(int i = 0; i < FACTORYNUMBER; i++) {
+        ret = !factories[i].size();
+    }
+    return ret;
 }
 
 

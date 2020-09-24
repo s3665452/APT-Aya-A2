@@ -11,6 +11,7 @@ class Factories {
         ~Factories();
         void fillFactories(TileBag& tileBag);
         std::vector<char> getFactory(int index);
+        bool isEmpty();
     private:
         // Create 6 factories in an array
         std::array<std::vector<char>, FACTORYNUMBER> factories;

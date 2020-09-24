@@ -1,46 +1,23 @@
-#ifndef LINKEDLIST
-#define LINKEDLIST
+#include "LinkedList.h"
 
-#include <vector>
-#include <iostream>
-
-#include "Node.h"
+#ifndef TILEBAG
+#define TILEBAG
 
 class TileBag {
 public:
-   TileBag(char* tileBagOrder);
-   TileBag();
-   ~TileBag();
-
-   int size();
-
-   char getFirstTile();
-
-    /**
-    * Add the tile to the front of the Linked List
-    */
-   void addTile_front(char tile);
-
-    /**
-    * Add the tile to the back of the Linked List
-    */
-   void addTile_back(char tile);
-
-    /**
-    * Remove the tile at the front of the Linked List
-    */
-   bool removeTile_front();
-
-    /**
-    * Removes all tiles from the Linked List
-    */
-   void clear(); 
-   void printAll();
+    TileBag(char* tileBagOrder);
+    TileBag();
+    TileBag(const TileBag& other);
+    TileBag(TileBag&& other);
+    ~TileBag();
+    unsigned int size() const;
+    char front() const;
+    void enqueue(char tile);
+    void dequeue();
+    void clear();
 
 private:
-   Node* head;
-   int length;
+    LinkedList queue;
 };
 
-#endif //LINKEDLIST
-
+#endif //TILEBAG
