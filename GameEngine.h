@@ -19,7 +19,9 @@ public:
     void printFactories() const;
     void printMosaic(Player* player) const;
     void getCommand();
-    void selectTile(Player* player, int factoryNum, char tile, int storeNum);
+    void selectTile(int factoryNum, char tile, int storeNum);
+    void changePlayer();
+    void moveTilesToMosaic();
 
     //saved Game
     void saveGame();

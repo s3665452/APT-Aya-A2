@@ -31,8 +31,12 @@ void Factories::fillFactories(TileBag& tileBag) {
 // Return true if all factories are empty
 bool Factories::isEmpty() {
     bool ret = true;
-    for(int i = 0; i < FACTORYNUMBER; i++) {
-        ret = !factories[i].size();
+    int i = 0;
+    while(i < FACTORYNUMBER &&  !factories[i].size()) {
+        i += 1;
+    }
+    if(i < FACTORYNUMBER) {
+        ret = false;
     }
     return ret;
 }

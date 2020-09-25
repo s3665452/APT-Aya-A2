@@ -41,6 +41,8 @@ void GameEngine::newGame(bool startgame) {
         std::cin >> playerNameA;
         std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
         std::cin >> playerNameB;
+        std::string dummy;
+        getline(std::cin, dummy);
         this->playerA = new Player(playerNameA);
         this->playerB = new Player(playerNameB);
         std::cout << std::endl << "Let's Play!" << std::endl;
@@ -58,37 +60,29 @@ void GameEngine::newGame(bool startgame) {
         std::cout << "=== Start Round ===";
         std::cout << std::endl;
 
+        this->currentPlayer = playerA;
         //Test
-        printFactories();
-        printMosaic(playerA);
-        selectTile(playerA, 1, 'U', 2);
-        printFactories();
-        printMosaic(playerB);
-        selectTile(playerB, 0, 'Y', 1);
-        getCommand();
+        // printFactories();
+        // printMosaic(playerA);
+        // selectTile(1, 'U', 2);
+        // changePlayer();
+        // printFactories();
+        // printMosaic(playerB);
+        // selectTile(0, 'Y', 1);
+        // getCommand();
+        playerTurn();
 }
 
 void GameEngine::playerTurn(){
-        while(!factories->isEmpty()) {
-            //The turn run until the factories is empty
-            //for(int x = 0; x < this->numFac; ++x){
-            
-            getCommand();
+    while(!factories->isEmpty()) {
+        //The turn run until the factories is empty
+        printFactories();
+        printMosaic(currentPlayer);
+        getCommand();
+        changePlayer();
+    }
 
-                // if (playerA->isTheTurn()){
-                //     std::cout<<"TURN FOR PLAYER: "<< playerA->getName()<<"   ";
-                //     std::cout<<"SCORE: "<<playerA->getScore() << std::endl;
-                //     printFactories();
-                //     printMosaic(playerA);
-                // } else if (playerB->isTheTurn()){
-                //     std::cout<<"TURN FOR PLAYER: "<< playerB->getName()<<"   ";
-                //     std::cout<<"SCORE: "<<playerB->getScore() << std::endl;
-                //     printFactories();
-                //     std::cout << std::endl;
-                // }
-        }
-
-        factories->~Factories();
+        delete factories;
         std::cout<<std::endl;
         std::cout<<"=== GAME OVER ===";
         std::cout<<std::endl;
@@ -158,16 +152,16 @@ void GameEngine::printMosaic(Player* player) const {
 }
 
 // Select tiles to put in store
-void GameEngine::selectTile(Player* player, int factoryNum, char tile, int storeNum) {
+void GameEngine::selectTile(int factoryNum, char tile, int storeNum) {
     std::vector<char>* selectedFactory = factories->getFactory(factoryNum);
-    char* selectedStore = player->store[storeNum-1];
+    char* selectedStore = currentPlayer->store[storeNum-1];
    
     long unsigned int i = 0;
     while( i < selectedFactory->size()) {
         // Put F to broken directly
         if((*selectedFactory)[i] == 'F') {
           //  std::cout << "Tile: " << "F" << std::endl;
-            player->broken.push_back('F');
+            currentPlayer->broken.push_back('F');
             selectedFactory->erase(selectedFactory->begin() + i);
         }
         // If it is selected tile, put it to player store or broken
@@ -183,7 +177,7 @@ void GameEngine::selectTile(Player* player, int factoryNum, char tile, int store
                 selectedStore[n] = tile;
             }
             else {
-                player->broken.push_back(tile);
+                currentPlayer->broken.push_back(tile);
             }   
             selectedFactory->erase(selectedFactory->begin() + i);
         }
@@ -203,6 +197,8 @@ void GameEngine::selectTile(Player* player, int factoryNum, char tile, int store
 }
 
 void GameEngine::getCommand() {
+    std::cout << "> ";
+
     std::string line;
     getline(std::cin, line);
     std::istringstream is(line);
@@ -211,8 +207,6 @@ void GameEngine::getCommand() {
     int factoryNum;
     char tile;
     int storeNum;
-
-    std::cout << "> ";
 
     is >> turn;
     is >> factoryNum;
@@ -228,11 +222,25 @@ void GameEngine::getCommand() {
     std::cout << tile << std::endl;
     std::cout << storeNum << std::endl;
 
-    if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || contains(factories->getFactory(factoryNum), tile)) {
+    if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile)) {
         std::cout << "Invalid Input" << std::endl;
         getCommand();
     }
 
-    
+    selectTile(factoryNum, tile, storeNum);
+
+}
+
+// Change current player
+void GameEngine::changePlayer() {
+    if(this->currentPlayer == playerA) {
+        this->currentPlayer = playerB;
+    }
+    else if(this->currentPlayer == playerB) {
+        this->currentPlayer = playerA;
+    }
+}
+
+void GameEngine::moveTilesToMosaic() {
 
 }
