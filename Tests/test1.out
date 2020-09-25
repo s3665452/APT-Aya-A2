@@ -1,0 +1,94 @@
+Factories:
+0: F U L R
+1: 
+2: R U L L 
+3: U B R Y 
+4: U U U U U
+5: L L L L R
+
+Score for Player1: 0
+Mosaic for A:
+1:         . || . . . . .
+2:       . . || . . . . .
+3:     L L L || . . . . .
+4:   . . . . || . . . . .
+5: . . . . . || . . . . .
+broken:
+
+Score for Player1: 0
+Mosaic for B:
+1:         . || . . . . .
+2:       . . || . . . . .
+3:     . . . || . . . . .
+4:   R R R R || . . . . .
+5: . . . . . || . . . . .
+broken: R
+
+Factories:
+0: 
+1: 
+2: R U L L 
+3: 
+4: U U U U U 
+5: 
+
+Score for Player A: 0
+Mosaic for A:
+1:         B || . . . . .
+2:       . . || . . . . .
+3:     L L L || . . . . .
+4:   . . . . || . . . . .
+5: . . . . . || . . . . .
+broken:
+
+Score for Player B: 0
+Mosaic for B:
+1:         . || . . . . .
+2:       . . || . . . . .
+3:     . . . || . . . . .
+4:   R R R R || . . . . .
+5: L L L L L || . . . . .
+broken: F
+
+Factories:
+0: 
+1: 
+2:  
+3: 
+4: 
+5: 
+
+Score for Player A: 0
+Mosaic for A:
+1:         B || . . . . .
+2:       . . || . . . . .
+3:     L L L || . . . . .
+4:   . . . . || . . . . .
+5: U U U U U || . . . . .
+broken:
+
+Score for Player B: 0
+Mosaic for B:
+1:         . || . . . . .
+2:       L L || . . . . .
+3:     . . . || . . . . .
+4:   R R R R || . . . . .
+5: L L L L L || . . . . .
+broken: F
+
+Factories:
+0: L L R 
+1: R Y Y R 
+2: R U Y B 
+3: R R L B 
+4:  
+5: U Y L R 
+
+Score for Player A: 0
+Mosaic for A:
+1:         B || . . . . .
+2:       . . || . . . . .
+3:     L L L || . . . . .
+4:   U U U U || . . . . .
+5: U U U U U || . . . . .
+broken:
