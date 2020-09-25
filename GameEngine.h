@@ -23,14 +23,17 @@ public:
     void getUserInput(Player* player);
     void selectTile(Player* player, int factoryNum, char tile, int storeNum);
 
+    //saved Game
     void saveGame();
+
+    void playerTurn();
 
     // player end of turn
     bool endTurn(Factories* factories, int num);
 
 private:
     int currentTurn;
-    //int numFac;
+    int numFac;
     //int numMos;
     Player* playerA;
     Player* playerB;

@@ -57,36 +57,30 @@ void GameEngine::newGame(bool startgame) {
         std::cout << std::endl;
 
         //Test
-        // printFactories();
-        // printMosaic(playerA);
-        // selectTile(playerA, 1, 'U', 2);
-        // printFactories();
-        // printMosaic(playerB);
-        // selectTile(playerB, 0, 'Y', 1);
-
-        //while(!endTurn(factories, this->numFac)) {
-        //for(int x = 0; x < this->numFac; ++x){
-        //The turn run until the factories is empty
-        playerA->isTheTurn();
-        std::cout<<"TURN FOR PLAYER: "<< playerA->getName()<<"   ";
-        std::cout<<"SCORE: "<<playerA->getScore() << std::endl;
-
-        
         printFactories();
         printMosaic(playerA);
-        printMosaic(playerB);
-        std::cout << std::endl;
-        printMosaic(playerA);
-        std::cout<<std::endl;
-                   
-        playerB->isTheTurn();
-        std::cout<<"TURN FOR PLAYER: "<< playerB->getName()<<"   ";
-        std::cout<<"SCORE: "<<playerB->getScore() << std::endl;
+        selectTile(playerA, 1, 'U', 2);
         printFactories();
-        std::cout << std::endl;
         printMosaic(playerB);
-        std::cout<<std::endl;
+        selectTile(playerB, 0, 'Y', 1);
+}
 
+void GameEngine::playerTurn(){
+        while(!endTurn(factories, this->numFac)) {
+            //The turn run until the factories is empty
+            //for(int x = 0; x < this->numFac; ++x){
+                if (playerA->isTheTurn()){
+                    std::cout<<"TURN FOR PLAYER: "<< playerA->getName()<<"   ";
+                    std::cout<<"SCORE: "<<playerA->getScore() << std::endl;
+                    printFactories();
+                    printMosaic(playerA);
+                } else if (playerB->isTheTurn()){
+                    std::cout<<"TURN FOR PLAYER: "<< playerB->getName()<<"   ";
+                    std::cout<<"SCORE: "<<playerB->getScore() << std::endl;
+                    printFactories();
+                    std::cout << std::endl;
+                }
+            }
 
         factories->~Factories();
         std::cout<<std::endl;
