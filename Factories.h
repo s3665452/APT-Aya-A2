@@ -10,7 +10,7 @@ class Factories {
         Factories(TileBag& tileBag);
         ~Factories();
         void fillFactories(TileBag& tileBag);
-        std::vector<char> getFactory(int index);
+        std::vector<char>* getFactory(int index);
         bool isEmpty();
     private:
         // Create 6 factories in an array

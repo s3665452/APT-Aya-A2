@@ -22,6 +22,7 @@ public:
     int getScore();
     std::string getName();
     void printInfo();
+    
 
 private:
 

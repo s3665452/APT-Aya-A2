@@ -49,25 +49,31 @@ void GameEngine::newGame(bool startgame) {
 
         //Test
         printFactories();
-        printMosaic(*playerA);
+        printMosaic(playerA);
+        selectTile(playerA, 1, 'U', 2);
         printFactories();
-        printMosaic(*playerB);
+        printMosaic(playerB);
+        selectTile(playerB, 0, 'Y', 1);
+        
+        printFactories();
+        printMosaic(playerA);
+        printMosaic(playerB);
 }
 
-void GameEngine::printFactories() {
+void GameEngine::printFactories() const {
     std::cout << "Factories:" << std::endl;
     for(int i = 0; i < FACTORYNUMBER; i++) {
         std::cout << i << ":";
-        for(long unsigned int n = 0; n < factories->getFactory(i).size(); n++) {
-            std::cout << " " << factories->getFactory(i)[n];
+        for(long unsigned int n = 0; n < factories->getFactory(i)->size(); n++) {
+            std::cout << " " << (*factories->getFactory(i))[n];
         }
         std::cout << std::endl;
     }
 }
 
 // Print mosaic for a player
-void GameEngine::printMosaic(Player& player) {
-    std::cout << std::endl << "Mosaic for " << player.getName() << ":" << std::endl;
+void GameEngine::printMosaic(Player* player) const {
+    std::cout << std::endl << "Mosaic for " << player->getName() << ":" << std::endl;
     for(int i = 0; i < MOSAIC_DIM; i++) {
         // Print row number
         std::cout << i + 1 << ":";
@@ -77,21 +83,66 @@ void GameEngine::printMosaic(Player& player) {
         }
         // Print store row
         for(int n = 0; n < i + 1; n++) {
-            std::cout << " " << player.store[i][n];  
+            std::cout << " " << player->store[i][n];  
         }
         std::cout << " ||";
         // Print board row
         for(int n = 0; n < MOSAIC_DIM; n++) {
-            std::cout << " " << player.board[i][n];
+            std::cout << " " << player->board[i][n];
         }
         std::cout << std::endl;
        
     }
     // Print broken
     std::cout << "broken:";
-    int brokenSize = player.broken.size();
+    int brokenSize = player->broken.size();
     for(int i = 0; i < brokenSize; i++) {
-        std::cout << " " << player.broken[i]; 
+        std::cout << " " << player->broken[i]; 
     }
     std::cout << std::endl << std::endl;
+}
+
+// Select tiles to put in store
+void GameEngine::selectTile(Player* player, int factoryNum, char tile, int storeNum) {
+    std::vector<char>* selectedFactory = factories->getFactory(factoryNum);
+    char* selectedStore = player->store[storeNum-1];
+   
+    long unsigned int i = 0;
+    while( i < selectedFactory->size()) {
+        // Put F to broken directly
+        if((*selectedFactory)[i] == 'F') {
+            std::cout << "Tile: " << "F" << std::endl;
+            player->broken.push_back('F');
+            selectedFactory->erase(selectedFactory->begin() + i);
+        }
+        // If it is selected tile, put it to player store or broken
+        else if ((*selectedFactory)[i] == tile) {
+            std::cout << "Tile: " << tile << std::endl;
+            // Iterate until find empty or reach the maximum size
+            int n = 0;
+            while(selectedStore[n] != '.' && n < storeNum) {
+                n += 1;
+            }
+            // If there is a empty spot, put the tile in, otherwise put the tile to broken
+            if(n < storeNum) {
+                selectedStore[n] = tile;
+            }
+            else {
+                player->broken.push_back(tile);
+            }   
+            selectedFactory->erase(selectedFactory->begin() + i);
+        }
+        // If it is other tiles, put it to centre if selected factory is not centre
+        else {
+            std::cout << "Tile: " << (*selectedFactory)[i] << std::endl;
+             if(factoryNum == 0) {
+                i += 1;
+             }
+             else {
+                 factories->getFactory(0)->push_back((*selectedFactory)[i]);
+                 std::cout << "pushed" << std::endl;
+                 selectedFactory->erase(selectedFactory->begin() + i);
+             }
+        }
+    }
 }

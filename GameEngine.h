@@ -10,14 +10,20 @@
 
 class GameEngine {
 public:
-    //Constructor
+    // Constructor
     GameEngine();
-    //Deconstructor
+    // Deconstructor
     ~GameEngine();
+    // Start a new game
     void newGame(bool startgame);
+    // Load a saved game
     void loadGame();
-    void printFactories();
-    void printMosaic(Player& player);
+    void printFactories() const;
+    void printMosaic(Player* player) const;
+    void getUserInput(Player* player);
+    void selectTile(Player* player, int factoryNum, char tile, int storeNum);
+
+
 
 private:
     int currentTurn;

@@ -10,9 +10,9 @@ Factories::~Factories() {
 
 }
 
-// Get a factory
-std::vector<char> Factories::getFactory(int index) {
-    return this->factories[index];
+// Get the pointer of a factory
+std::vector<char>* Factories::getFactory(int index) {
+    return &(this->factories[index]);
 }
 
 // Fill the factories with tiles
