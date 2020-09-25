@@ -16,11 +16,17 @@ public:
     ~GameEngine();
     void newGame(bool startgame);
     void loadGame();
+    void saveGame();
     void printFactories();
     void printMosaic(Player& player);
 
+    // player end of turn
+    bool endTurn(Factories* factories, int num);
+
 private:
     int currentTurn;
+    //int numFac;
+    //int numMos;
     Player* playerA;
     Player* playerB;
     TileBag* tileBag;

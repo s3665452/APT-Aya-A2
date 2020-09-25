@@ -44,3 +44,11 @@ void Player::printInfo() {
     std::cout <<"Score: "<< this->score << std::endl;
     std::cout << std::endl;
 }
+
+bool Player::isTheTurn(){
+    return this->currentTurn;
+}
+
+bool Player::isFirst(){
+     return this->containFirst;
+}
