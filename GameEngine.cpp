@@ -1,4 +1,6 @@
 #include "GameEngine.h"
+#include "Types.h"
+#include <sstream>
 
 GameEngine::GameEngine() {
     this->currentTurn = 0;
@@ -63,24 +65,28 @@ void GameEngine::newGame(bool startgame) {
         printFactories();
         printMosaic(playerB);
         selectTile(playerB, 0, 'Y', 1);
+        getCommand();
 }
 
 void GameEngine::playerTurn(){
-        while(!endTurn(factories, this->numFac)) {
+        while(!factories->isEmpty()) {
             //The turn run until the factories is empty
             //for(int x = 0; x < this->numFac; ++x){
-                if (playerA->isTheTurn()){
-                    std::cout<<"TURN FOR PLAYER: "<< playerA->getName()<<"   ";
-                    std::cout<<"SCORE: "<<playerA->getScore() << std::endl;
-                    printFactories();
-                    printMosaic(playerA);
-                } else if (playerB->isTheTurn()){
-                    std::cout<<"TURN FOR PLAYER: "<< playerB->getName()<<"   ";
-                    std::cout<<"SCORE: "<<playerB->getScore() << std::endl;
-                    printFactories();
-                    std::cout << std::endl;
-                }
-            }
+            
+            getCommand();
+
+                // if (playerA->isTheTurn()){
+                //     std::cout<<"TURN FOR PLAYER: "<< playerA->getName()<<"   ";
+                //     std::cout<<"SCORE: "<<playerA->getScore() << std::endl;
+                //     printFactories();
+                //     printMosaic(playerA);
+                // } else if (playerB->isTheTurn()){
+                //     std::cout<<"TURN FOR PLAYER: "<< playerB->getName()<<"   ";
+                //     std::cout<<"SCORE: "<<playerB->getScore() << std::endl;
+                //     printFactories();
+                //     std::cout << std::endl;
+                // }
+        }
 
         factories->~Factories();
         std::cout<<std::endl;
@@ -107,14 +113,6 @@ void GameEngine::playerTurn(){
     } else {
         std::cout << "Player " << winner <<" wins!"<< std::endl;
     }                                     
-}
-
-bool GameEngine::endTurn(Factories* factories, int num){
-        //check the factories are empty to end a turn
-        if(factories->isEmpty()) {
-            return true;
-        }
-    return false;
 }
 
 void GameEngine::printFactories() const {
@@ -168,13 +166,13 @@ void GameEngine::selectTile(Player* player, int factoryNum, char tile, int store
     while( i < selectedFactory->size()) {
         // Put F to broken directly
         if((*selectedFactory)[i] == 'F') {
-            std::cout << "Tile: " << "F" << std::endl;
+          //  std::cout << "Tile: " << "F" << std::endl;
             player->broken.push_back('F');
             selectedFactory->erase(selectedFactory->begin() + i);
         }
         // If it is selected tile, put it to player store or broken
         else if ((*selectedFactory)[i] == tile) {
-            std::cout << "Tile: " << tile << std::endl;
+         //   std::cout << "Tile: " << tile << std::endl;
             // Iterate until find empty or reach the maximum size
             int n = 0;
             while(selectedStore[n] != '.' && n < storeNum) {
@@ -191,15 +189,50 @@ void GameEngine::selectTile(Player* player, int factoryNum, char tile, int store
         }
         // If it is other tiles, put it to centre if selected factory is not centre
         else {
-            std::cout << "Tile: " << (*selectedFactory)[i] << std::endl;
+         //  std::cout << "Tile: " << (*selectedFactory)[i] << std::endl;
              if(factoryNum == 0) {
                 i += 1;
              }
              else {
                  factories->getFactory(0)->push_back((*selectedFactory)[i]);
-                 std::cout << "pushed" << std::endl;
+              //   std::cout << "pushed" << std::endl;
                  selectedFactory->erase(selectedFactory->begin() + i);
              }
         }
     }
+}
+
+void GameEngine::getCommand() {
+    std::string line;
+    getline(std::cin, line);
+    std::istringstream is(line);
+
+    std::string turn;
+    int factoryNum;
+    char tile;
+    int storeNum;
+
+    std::cout << "> ";
+
+    is >> turn;
+    is >> factoryNum;
+    is >> tile;
+    is >> storeNum;
+
+    if(std::cin.eof()){
+        exitGame();
+    }
+
+    std::cout << turn << std::endl;
+    std::cout << factoryNum << std::endl;
+    std::cout << tile << std::endl;
+    std::cout << storeNum << std::endl;
+
+    if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || contains(factories->getFactory(factoryNum), tile)) {
+        std::cout << "Invalid Input" << std::endl;
+        getCommand();
+    }
+
+    
+
 }

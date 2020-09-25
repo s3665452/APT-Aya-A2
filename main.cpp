@@ -12,7 +12,6 @@
 void openMenu();
 void getMenuChoice();
 void printCredits();
-void exitGame();
 void newGame();
 
 int main(void){
@@ -36,11 +35,6 @@ void printCredits(){
     << "Student ID: S3748401" << std::endl << "Email: S3748401@student.rmit.edu.au" << std::endl << "----------------------------------" << std::endl;
 }
 
-void exitGame(){
-
-    std::cout << std::endl << "Goodbye" << std::endl;
-    exit(EXIT_SUCCESS);
-}
 
 void getMenuChoice(){
     int choice = 0;

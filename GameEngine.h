@@ -1,5 +1,3 @@
-// To be implemented on week 9
-
 #include "Player.h"
 #include "TileBag.h"
 #include "string"
@@ -20,7 +18,7 @@ public:
     void loadGame();
     void printFactories() const;
     void printMosaic(Player* player) const;
-    void getUserInput(Player* player);
+    void getCommand();
     void selectTile(Player* player, int factoryNum, char tile, int storeNum);
 
     //saved Game
@@ -28,13 +26,9 @@ public:
 
     void playerTurn();
 
-    // player end of turn
-    bool endTurn(Factories* factories, int num);
-
 private:
     int currentTurn;
-    int numFac;
-    //int numMos;
+    Player* currentPlayer;
     Player* playerA;
     Player* playerB;
     TileBag* tileBag;

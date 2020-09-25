@@ -22,7 +22,7 @@ public:
     int getScore();
     std::string getName();
     void printInfo();
-    
+
 
     // turn for the player
     bool isTheTurn();

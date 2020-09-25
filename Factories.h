@@ -2,7 +2,7 @@
 #include <array>
 #include "TileBag.h"
 
-#define FACTORYSIZE 5
+#define FACTORYSIZE 4
 #define FACTORYNUMBER 6
 
 class Factories {
