@@ -24,13 +24,17 @@ public:
     void printInfo();
     
 
+    // turn for the player
+    bool isTheTurn();
+    // return true if mosiac's player contain the first player tile 
+    bool isFirst(); 
+
 private:
 
     std::string name;
     int score;
-
-
-
+    int currentTurn;
+    int containFirst;
 };
 
 

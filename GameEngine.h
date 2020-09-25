@@ -23,10 +23,15 @@ public:
     void getUserInput(Player* player);
     void selectTile(Player* player, int factoryNum, char tile, int storeNum);
 
+    void saveGame();
 
+    // player end of turn
+    bool endTurn(Factories* factories, int num);
 
 private:
     int currentTurn;
+    //int numFac;
+    //int numMos;
     Player* playerA;
     Player* playerB;
     TileBag* tileBag;

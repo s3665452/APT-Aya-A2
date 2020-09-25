@@ -15,6 +15,14 @@ GameEngine::~GameEngine() {
     delete factories;
 }
 
+void GameEngine::loadGame(){
+
+}
+
+void GameEngine::saveGame(){
+
+}
+
 void GameEngine::newGame(bool startgame) {
     std::string playerNameA;
     std::string playerNameB;
@@ -22,9 +30,10 @@ void GameEngine::newGame(bool startgame) {
     //Testing
     //this->tileBag->printAll();
 
-   // bool loadGame = false;
+    //bool loadGame = false;
     // start a new game
     if (startgame == true){
+        //if the game is a new game then initialize
         std::cout << "Starting a New Game" << std::endl << std::endl;
         std::cout << "Enter a name for player 1" << std::endl << "> ";
         std::cin >> playerNameA;
@@ -48,16 +57,70 @@ void GameEngine::newGame(bool startgame) {
         std::cout << std::endl;
 
         //Test
-        printFactories();
-        printMosaic(playerA);
-        selectTile(playerA, 1, 'U', 2);
-        printFactories();
-        printMosaic(playerB);
-        selectTile(playerB, 0, 'Y', 1);
+        // printFactories();
+        // printMosaic(playerA);
+        // selectTile(playerA, 1, 'U', 2);
+        // printFactories();
+        // printMosaic(playerB);
+        // selectTile(playerB, 0, 'Y', 1);
+
+        //while(!endTurn(factories, this->numFac)) {
+        //for(int x = 0; x < this->numFac; ++x){
+        //The turn run until the factories is empty
+        playerA->isTheTurn();
+        std::cout<<"TURN FOR PLAYER: "<< playerA->getName()<<"   ";
+        std::cout<<"SCORE: "<<playerA->getScore() << std::endl;
+
         
         printFactories();
         printMosaic(playerA);
         printMosaic(playerB);
+        std::cout << std::endl;
+        printMosaic(playerA);
+        std::cout<<std::endl;
+                   
+        playerB->isTheTurn();
+        std::cout<<"TURN FOR PLAYER: "<< playerB->getName()<<"   ";
+        std::cout<<"SCORE: "<<playerB->getScore() << std::endl;
+        printFactories();
+        std::cout << std::endl;
+        printMosaic(playerB);
+        std::cout<<std::endl;
+
+
+        factories->~Factories();
+        std::cout<<std::endl;
+        std::cout<<"=== GAME OVER ===";
+        std::cout<<std::endl;
+                            
+        // winner of the game
+        std::cout << std::endl;
+        std::string winner = " ";
+        int score = 0;
+        std::cout << "Final Scores: " << std::endl;
+        std::cout << playerA->getName()<< ":" << playerA->getScore() << std::endl; 
+        std::cout << playerB->getName()<< ":" << playerB->getScore() << std::endl; 
+
+           if(playerA->getScore() > score) {
+              score = playerA->getScore();
+              winner = playerA->getName();
+           } else if (playerB->getScore() > score) {
+              score = playerB->getScore();
+              winner = playerB->getName();
+    }
+    if(winner == " ") {
+        std::cout << "Draw!" << std::endl;
+    } else {
+        std::cout << "Player " << winner <<" wins!"<< std::endl;
+    }                                     
+}
+
+bool GameEngine::endTurn(Factories* factories, int num){
+        //check the factories are empty to end a turn
+        if(factories->isEmpty()) {
+            return true;
+        }
+    return false;
 }
 
 void GameEngine::printFactories() const {
