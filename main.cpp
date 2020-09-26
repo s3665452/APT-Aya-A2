@@ -58,7 +58,7 @@ void getMenuChoice(){
     else if(choice == 2){
        GameEngine* gameEngine = new GameEngine();
        std::string filename = " ";
-       std::cout<<"Enter load filename: ";
+       std::cout<<"Enter the filename from which load game: ";
        std::cin >> filename;
        std::cout << std::endl;
        gameEngine->loadGame(filename);

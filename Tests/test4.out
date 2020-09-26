@@ -1,0 +1,37 @@
+Factories:
+0: L  
+1: 
+2: 
+3: 
+4: 
+5: 
+
+Score for Mika: 0
+Mosaic for Mika:
+1:         L || . . . . .
+2:       U U || . . . . .
+3:     . R R || . . . . .
+4:   . Y Y Y || . . . . .
+5: . . . . U || . . . . .
+broken:
+
+Score for Player2: 0
+Mosaic for Player2:
+1:         U || . . . . .
+2:       U U || . . . . .
+3:     L L L || . . . . .
+4:   . . B B || . . . . .
+5: . . . R R || . . . . .
+broken: F
+
+turn 5 L 1
+turn 4 U 2
+turn 3 U 2
+turn 0 U 1
+turn 2 R 3
+turn 0 L 3
+turn 1 Y 4
+turn 0 B 4
+turn 0 Y 4
+turn 0 R 5
+turn 0 U 5

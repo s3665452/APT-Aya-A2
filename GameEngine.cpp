@@ -55,7 +55,7 @@ void GameEngine::loadGame(std::string filename){
         std::cout << "Error: Please enter a valid filename!"<<std::endl;
     }
 }
-void GameEngine::saveGame(){
+void GameEngine::saveGame() {
 
 }
 
@@ -68,7 +68,7 @@ void GameEngine::newGame(bool startgame) {
 
     //bool loadGame = false;
     // start a new game
-    if (startgame == true){
+    if (startgame == true) {
         //if the game is a new game then initialize
         std::cout << "Starting a New Game" << std::endl << std::endl;
         std::cout << "Enter a name for player 1" << std::endl << "> ";
