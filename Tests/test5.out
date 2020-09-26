@@ -1,0 +1,27 @@
+Factories:
+0: Y R L Y R U
+1: 
+2: 
+3: 
+4: U R L B 
+5: 
+
+Score for Sean: 0
+Mosaic for Sean:
+1:         R || . . . . .
+2:       L L || . . . . .
+3:     . B B || . . . . .
+4:   . . . . || . . . . .
+5: . . . . . || . . . . .
+broken:
+
+Score for Mikee: 0
+Mosaic for Mikee:
+1:         . || . . . . .
+2:       U U || . . . . .
+3:     . R R || . . . . .
+4:   . . . B || . . . . .
+5: . . . . . || . . . . .
+broken: F
+
+
