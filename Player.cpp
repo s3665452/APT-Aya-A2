@@ -61,7 +61,7 @@ char Player::storeColour(int storeNum) const{
     return store[storeNum-1][0];
 }
 
-bool Player::tileFilled(int rowNum, char colour) const{
+bool Player::tileCovered(int rowNum, char colour) const{
     bool ret = false;
     int i = 0;
     while(board[rowNum - 1][i].first != colour) {
@@ -71,4 +71,37 @@ bool Player::tileFilled(int rowNum, char colour) const{
         ret = true;
     }
     return ret;
+}
+
+void Player::tileTheWall(TileBag* tileBag) {
+    for(int i = 0; i < MOSAIC_DIM; i++) {
+        if(isFull(i + 1)) {
+            // Find and cover the tile spot on the board
+            int n = 0;
+            while(board[i][n].first != storeColour(i + 1)) {
+                // std::cout << storeColour(i + 1) << std::endl;
+                // std::cout << "board " << i << n << ": ";
+                // std::cout << board[i][n].first << std::endl;
+                n += 1;
+            }
+           // std::cout << "Board " << i << n << "set to " << storeColour(i + 1) << std::endl;
+            board[i][n].second = storeColour(i + 1);
+            
+            // Set the first tile in the store to empty, "move" the rest to the tile bag
+            store[i][0] = '.';
+            for(int index = 1; index < i + 1; index++) {
+                // std::cout << "enqueue " << i << index;
+                // std::cout << store[i][index] << std::endl;
+                tileBag->enqueue(store[i][index]);
+                store[i][index] = '.';
+            }
+        }
+
+        for(long unsigned int n = 0; n < broken.size(); n++) {
+            // std::cout << "enqueue broken" << n;
+            // std::cout << broken[n] << std::endl;
+            tileBag->enqueue(broken[n]);
+        }
+        broken.clear();
+    }
 }

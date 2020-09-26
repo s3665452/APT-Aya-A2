@@ -1,5 +1,6 @@
 #include <string>
 #include "Types.h"
+#include "TileBag.h"
 
 #ifndef PLAYER
 #define PLAYER
@@ -33,8 +34,12 @@ public:
     // Return occupied colour of the selected store
     char storeColour(int storeNum) const;
 
-    // Return true is the tile in the mosaic has been filled
-    bool tileFilled(int rowNum, char colour) const;
+    // Return true is the tile in the mosaic has been covered
+    bool tileCovered(int rowNum, char colour) const;
+
+    // Empty stores, till the wall, move the rest to the tile bag
+    // Can only be called when 'F' is not in the broken
+    void tileTheWall(TileBag* tileBag);
 
 
 

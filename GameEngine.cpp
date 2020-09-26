@@ -61,19 +61,13 @@ void GameEngine::newGame(bool startgame) {
         std::cout << std::endl;
 
         this->currentPlayer = playerA;
-        //Test
-        // printFactories();
-        // printMosaic(playerA);
-        // selectTile(1, 'U', 2);
-        // changePlayer();
-        // printFactories();
-        // printMosaic(playerB);
-        // selectTile(0, 'Y', 1);
-        // getCommand();
-        playerTurn();
+
+
+        // >>>play one round <<<
+        playOneRound();
 }
 
-void GameEngine::playerTurn(){
+void GameEngine::playOneRound(){
     while(!factories->isEmpty()) {
         //The turn run until the factories is empty
         printFactories();
@@ -81,6 +75,17 @@ void GameEngine::playerTurn(){
         getCommand();
         changePlayer();
     }
+    printMosaic(playerA);
+    printMosaic(playerB);
+    setFirstPlayer();
+    std::cout << "First player set " << currentPlayer->getName() << std::endl;
+    playerA->tileTheWall(tileBag);
+    std::cout << "PlayerA tile" << std::endl;
+    playerB->tileTheWall(tileBag);
+    std::cout << "PlayerB tile" << std::endl;
+    // Test
+    printMosaic(playerA);
+    printMosaic(playerB);
 
         delete factories;
         std::cout<<std::endl;
@@ -227,7 +232,7 @@ void GameEngine::getCommand() {
     // std::cout << tile << std::endl;
     // std::cout << storeNum << std::endl;
  
-    if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileFilled(storeNum, tile)) {
+    if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) {
         std::cout << "Invalid Input" << std::endl;
         getCommand();
     }
@@ -246,7 +251,18 @@ void GameEngine::changePlayer() {
     }
 }
 
-
-void GameEngine::moveTilesToMosaic() {
-
+// Set the player who has 'F' to current player, remove 'F'
+// Can be called only when 'F' present in the broken of a player
+void GameEngine::setFirstPlayer() {
+    long unsigned int i = 0;
+    while(currentPlayer->broken[i] != 'F') {
+        if(i < currentPlayer->broken.size()) {
+            i += 1;
+        }
+        else {
+            changePlayer();
+            i = 0;
+        }
+    }
+    currentPlayer->broken.erase(currentPlayer->broken.begin() + i);
 }

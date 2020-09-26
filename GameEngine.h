@@ -21,12 +21,15 @@ public:
     void getCommand();
     void selectTile(int factoryNum, char tile, int storeNum);
     void changePlayer();
-    void moveTilesToMosaic();
 
     //saved Game
     void saveGame();
 
-    void playerTurn();
+    // Play a single round
+    void playOneRound();
+
+    // Set the player who has 'F' to current player, move 'F' to the centre
+    void setFirstPlayer();
 
 private:
     int currentTurn;
