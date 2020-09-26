@@ -13,6 +13,7 @@ void openMenu();
 void getMenuChoice();
 void printCredits();
 void newGame();
+void loadGame();
 
 int main(void){
 
@@ -55,8 +56,14 @@ void getMenuChoice(){
         gameEngine->newGame(true);
     }
     else if(choice == 2){
-        std::cout << "load game (to do)" << std::endl;
-        openMenu();
+       GameEngine* gameEngine = new GameEngine();
+       std::string filename = " ";
+       std::cout<<"Enter load filename: ";
+       std::cin >> filename;
+       std::cout << std::endl;
+       gameEngine->loadGame(filename);
+       //std::cout << "load game (to do)" << std::endl;
+       openMenu();
     }
     else if(choice == 3){
         printCredits();

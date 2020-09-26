@@ -15,7 +15,7 @@ public:
     // Start a new game
     void newGame(bool startgame);
     // Load a saved game
-    void loadGame();
+    void loadGame(std::string filename);
     void printFactories() const;
     void printMosaic(Player* player) const;
     void getCommand();

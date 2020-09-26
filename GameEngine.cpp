@@ -1,6 +1,7 @@
 #include "GameEngine.h"
 #include "Types.h"
 #include <sstream>
+#include <fstream>
 
 GameEngine::GameEngine() {
     this->currentTurn = 0;
@@ -17,10 +18,43 @@ GameEngine::~GameEngine() {
     delete factories;
 }
 
-void GameEngine::loadGame(){
+void GameEngine::loadGame(std::string filename){
+    if(filename.size() > 0){
+       filename += ".save";
+       filename = "save/"+filename;
+       std::string file;
+       std::ifstream input (filename);
+       bool readGame = false;
 
+    Player* mosaic[2];
+    for(int x = 0; x < 2; x++) {
+            mosaic[x] = nullptr;
+        }
+        if(input.is_open()) {
+            while(getline(input,file)) {
+            if(file == "game") readGame = true;
+
+            if(readGame == true) {
+                std::string typefile;
+                std::string input;
+            for(int x =0; x < (int) file.length(); x++) {
+                if(file[x] != ' ') {
+                  input.push_back(file[x]);
+                } else {
+                  typefile = input;
+                        }
+                    }
+                }
+            }
+       input.close();
+      } else {
+        //if the file cannot be found
+        std::cout << "File cannot be found" <<std::endl;
+      }
+    } else {   
+        std::cout << "Error: Please enter a valid filename!"<<std::endl;
+    }
 }
-
 void GameEngine::saveGame(){
 
 }
