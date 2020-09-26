@@ -131,13 +131,17 @@ void GameEngine::printMosaic(Player* player) const {
             std::cout << "  ";
         }
         // Print store row
-        for(int n = 0; n < i + 1; n++) {
+        for(int n = i ; n >= 0; n--) {
             std::cout << " " << player->store[i][n];  
         }
         std::cout << " ||";
         // Print board row
         for(int n = 0; n < MOSAIC_DIM; n++) {
-            std::cout << " " << player->board[i][n];
+            std::cout << " " << player->board[i][n].second;
+        }
+        // Print underlaying colours (test)
+        for(int n = 0; n < MOSAIC_DIM; n++) {
+            std::cout << " " << player->board[i][n].first;
         }
         std::cout << std::endl;
        
@@ -196,6 +200,7 @@ void GameEngine::selectTile(int factoryNum, char tile, int storeNum) {
     }
 }
 
+// Get a line of input from user, varify and execute
 void GameEngine::getCommand() {
     std::cout << "> ";
 
@@ -217,12 +222,12 @@ void GameEngine::getCommand() {
         exitGame();
     }
 
-    std::cout << turn << std::endl;
-    std::cout << factoryNum << std::endl;
-    std::cout << tile << std::endl;
-    std::cout << storeNum << std::endl;
-
-    if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile)) {
+    // std::cout << turn << std::endl;
+    // std::cout << factoryNum << std::endl;
+    // std::cout << tile << std::endl;
+    // std::cout << storeNum << std::endl;
+ 
+    if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileFilled(storeNum, tile)) {
         std::cout << "Invalid Input" << std::endl;
         getCommand();
     }
@@ -240,6 +245,7 @@ void GameEngine::changePlayer() {
         this->currentPlayer = playerA;
     }
 }
+
 
 void GameEngine::moveTilesToMosaic() {
 

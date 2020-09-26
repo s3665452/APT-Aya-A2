@@ -15,10 +15,13 @@ Player::Player(std::string playerName) {
         }
     }
 
+    int index = 0;
     for (int i = 0; i != MOSAIC_DIM; ++i){
         for (int n = 0; n != MOSAIC_DIM; ++n){
           //   std::cout << "board " << i << n; 
-            board[i][n] = '.';
+            board[i][n].first = MOSAIC_ORDER[index];
+            board[i][n].second = '.';
+            index += 1;
         }
     }
 }
@@ -31,11 +34,11 @@ Player::~Player() {
 
 }
 
-std::string Player::getName() {
+std::string Player::getName() const {
     return this->name;
 }
 
-int Player::getScore() {
+int Player::getScore() const {
     return this->score;
 }
 
@@ -45,10 +48,27 @@ void Player::printInfo() {
     std::cout << std::endl;
 }
 
-bool Player::isTheTurn(){
-    return this->currentTurn;
+bool Player::isFull(int storeNum) const{
+    bool ret = false;
+    if(store[storeNum - 1][storeNum - 1] != '.') {
+        ret = true;
+    }
+    return ret;
 }
 
-bool Player::isFirst(){
-     return this->containFirst;
+char Player::storeColour(int storeNum) const{
+  //  std::cout << "Store colour: " << store[storeNum-1][0] << std::endl;
+    return store[storeNum-1][0];
+}
+
+bool Player::tileFilled(int rowNum, char colour) const{
+    bool ret = false;
+    int i = 0;
+    while(board[rowNum - 1][i].first != colour) {
+        i += 1;
+    }
+    if(board[rowNum - 1][i].second != '.') {
+        ret = true;
+    }
+    return ret;
 }

@@ -8,11 +8,11 @@
 
 #define TURNS   5
 #define MOSAIC_DIM  5
-#define FACTORY_SIZE 4
 #define TILEBAG_MAX_SIZE    100
 
 // Initial order of the tilebag
 const char TILEBAG_ORDER[] = "YBUUYRURRBRLRULLLLLBBRYRLBYURUBULYRULYBYBYRLYLUYUYBYBBUURLLBURRLLBLBLULBYRRBUUYYRYYBBRYUUYUBYBLRLRRU";
+const char MOSAIC_ORDER[] = "BYRULLBYRUULBYRRULBYYRBLB";
 
 const char RED = 'R';
 const char YELLOW = 'Y';
@@ -31,6 +31,6 @@ bool contains(std::vector<char>* factory, char tile);
 
 typedef std::vector<char> Broken;
 typedef char** Store;
-typedef char Board[MOSAIC_DIM][MOSAIC_DIM];
+typedef std::pair <char, char> Board[MOSAIC_DIM][MOSAIC_DIM];
 
 #endif //TYPES

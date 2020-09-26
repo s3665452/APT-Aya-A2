@@ -19,21 +19,29 @@ public:
     // Move Constructor
     Player(Player&& other);
 
-    int getScore();
-    std::string getName();
+    // Return the scoure of the player
+    int getScore() const;
+
+    // Return the name of the palyer
+    std::string getName() const;
+
     void printInfo();
 
+    // Return true is selected store is full
+    bool isFull(int storeNum) const;
 
-    // turn for the player
-    bool isTheTurn();
-    // return true if mosiac's player contain the first player tile 
-    bool isFirst(); 
+    // Return occupied colour of the selected store
+    char storeColour(int storeNum) const;
+
+    // Return true is the tile in the mosaic has been filled
+    bool tileFilled(int rowNum, char colour) const;
+
+
 
 private:
 
     std::string name;
     int score;
-    int currentTurn;
     int containFirst;
 };
 
