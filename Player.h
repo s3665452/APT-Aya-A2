@@ -41,6 +41,9 @@ public:
     // Can only be called when 'F' is not in the broken
     void tileTheWall(TileBag* tileBag);
 
+    // Calculate score according to the location of a newly added tile
+    void addScore(int y, int x);
+
 
 
 private:

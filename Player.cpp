@@ -86,7 +86,8 @@ void Player::tileTheWall(TileBag* tileBag) {
             }
            // std::cout << "Board " << i << n << "set to " << storeColour(i + 1) << std::endl;
             board[i][n].second = storeColour(i + 1);
-            
+            // Calculate and add points
+            addScore(i, n);
             // Set the first tile in the store to empty, "move" the rest to the tile bag
             store[i][0] = '.';
             for(int index = 1; index < i + 1; index++) {
@@ -104,4 +105,38 @@ void Player::tileTheWall(TileBag* tileBag) {
         }
         broken.clear();
     }
+}
+
+void Player::addScore(int y, int x) {
+    int score = 1;
+    // Calculate horizontal points
+    int i = 1;
+    while(x + i < MOSAIC_DIM && board[y][x + i].second != '.') {
+        score += 1;
+        i += 1;
+    }
+    i = 1;
+    while(x - i > -1 && board[y][x - i].second != '.') {
+        score += 1;
+        i += 1;
+    }
+    // Calculate vertical points
+    i = 1;
+    if((y + i < MOSAIC_DIM && board[y + i][x].second != '.') || (y - i > -1 && board[y - i][x].second != '.')) {
+        if(score > 1) {
+            score += 1;
+        }
+    }
+    while(y + i < MOSAIC_DIM && board[y + i][x].second != '.') {
+        score += 1;
+        i += 1;
+    }
+    i = 1;
+    while(y - i > -1 && board[y - i][x].second != '.') {
+        score += 1;
+        i += 1;
+    }
+    // Add score to player score
+    this->score += score;
+    std::cout << board[y][x].second << " " << score << " added" << std::endl;
 }

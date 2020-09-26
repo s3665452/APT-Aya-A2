@@ -8,7 +8,7 @@ GameEngine::GameEngine() {
     this->playerA = nullptr;
     this->playerB = nullptr;
     this->tileBag = new TileBag();
-    this->factories = new Factories(*tileBag);
+    this->factories = new Factories(tileBag);
 }
 
 GameEngine::~GameEngine() {
@@ -26,9 +26,9 @@ void GameEngine::loadGame(std::string filename){
        std::ifstream input (filename);
        bool readGame = false;
 
-    Player* mosaic[2];
+    //Player* mosaic[2];
     for(int x = 0; x < 2; x++) {
-            mosaic[x] = nullptr;
+      //      mosaic[x] = nullptr;
         }
         if(input.is_open()) {
             while(getline(input,file)) {
@@ -97,8 +97,13 @@ void GameEngine::newGame(bool startgame) {
         this->currentPlayer = playerA;
 
 
-        // >>>play one round <<<
-        playOneRound();
+        // >>>play two rounds <<<
+        while(currentTurn < 2) {
+            playOneRound();
+            factories->fillFactories(tileBag);
+            currentTurn += 1;
+        }
+        printResult();
 }
 
 void GameEngine::playOneRound(){
@@ -109,7 +114,6 @@ void GameEngine::playOneRound(){
         printMosaic(currentPlayer);
         getCommand();
         changePlayer();
-        std::cout << "Turn successful." << std::endl;
     }
     printMosaic(playerA);
     printMosaic(playerB);
@@ -119,35 +123,8 @@ void GameEngine::playOneRound(){
     std::cout << "PlayerA tile" << std::endl;
     playerB->tileTheWall(tileBag);
     std::cout << "PlayerB tile" << std::endl;
-    // Test
-    printMosaic(playerA);
-    printMosaic(playerB);
+    
 
-        delete factories;
-        std::cout<<std::endl;
-        std::cout<<"=== GAME OVER ===";
-        std::cout<<std::endl;
-                            
-        // winner of the game
-        std::cout << std::endl;
-        std::string winner = " ";
-        int score = 0;
-        std::cout << "Final Scores: " << std::endl;
-        std::cout << playerA->getName()<< ":" << playerA->getScore() << std::endl; 
-        std::cout << playerB->getName()<< ":" << playerB->getScore() << std::endl; 
-
-           if(playerA->getScore() > score) {
-              score = playerA->getScore();
-              winner = playerA->getName();
-           } else if (playerB->getScore() > score) {
-              score = playerB->getScore();
-              winner = playerB->getName();
-    }
-    if(winner == " ") {
-        std::cout << "Draw!" << std::endl;
-    } else {
-        std::cout << "Player " << winner <<" wins!"<< std::endl;
-    }                                     
 }
 
 void GameEngine::printFactories() const {
@@ -274,7 +251,7 @@ void GameEngine::getCommand() {
     }
 
     selectTile(factoryNum, tile, storeNum);
-
+    std::cout << "Turn successful." << std::endl;
 }
 
 // Change current player
@@ -301,4 +278,37 @@ void GameEngine::setFirstPlayer() {
         }
     }
     currentPlayer->broken.erase(currentPlayer->broken.begin() + i);
+}
+
+// End game result
+void GameEngine::printResult() {
+
+    // Test
+    printMosaic(playerA);
+    printMosaic(playerB);
+        std::cout<<std::endl;
+        std::cout<<"=== GAME OVER ===";
+        std::cout<<std::endl;
+                            
+        // winner of the game
+        std::cout << std::endl;
+        std::string winner = " ";
+        int score = 0;
+        std::cout << "Final Scores: " << std::endl;
+        std::cout << playerA->getName()<< ":" << playerA->getScore() << std::endl; 
+        std::cout << playerB->getName()<< ":" << playerB->getScore() << std::endl; 
+
+           if(playerA->getScore() > score) {
+              score = playerA->getScore();
+              winner = playerA->getName();
+           } else if (playerB->getScore() > score) {
+              score = playerB->getScore();
+              winner = playerB->getName();
+    }
+    if(winner == " ") {
+        std::cout << "Draw!" << std::endl;
+    } else {
+        std::cout << "Player " << winner <<" wins!"<< std::endl;
+    }                                     
+    delete factories;
 }

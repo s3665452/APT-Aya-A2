@@ -7,9 +7,9 @@
 
 class Factories {
     public:
-        Factories(TileBag& tileBag);
+        Factories(TileBag* tileBag);
         ~Factories();
-        void fillFactories(TileBag& tileBag);
+        void fillFactories(TileBag* tileBag);
         std::vector<char>* getFactory(int index);
         bool isEmpty();
     private:

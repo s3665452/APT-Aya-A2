@@ -28,8 +28,11 @@ public:
     // Play a single round
     void playOneRound();
 
-    // Set the player who has 'F' to current player, move 'F' to the centre
+    // Set the player who has 'F' to be current player, move 'F' to the centre
     void setFirstPlayer();
+
+    // End game result
+    void printResult();
 
 private:
     int currentTurn;
