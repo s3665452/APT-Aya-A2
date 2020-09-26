@@ -70,10 +70,12 @@ void GameEngine::newGame(bool startgame) {
 void GameEngine::playOneRound(){
     while(!factories->isEmpty()) {
         //The turn run until the factories is empty
+        std::cout<<"TURN FOR PLAYER: "<<currentPlayer->getName() << std::endl;
         printFactories();
         printMosaic(currentPlayer);
         getCommand();
         changePlayer();
+        std::cout << "Turn successful." << std::endl;
     }
     printMosaic(playerA);
     printMosaic(playerB);
