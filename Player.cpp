@@ -97,14 +97,8 @@ void Player::tileTheWall(TileBag* tileBag) {
                 store[i][index] = '.';
             }
         }
-
-        for(long unsigned int n = 0; n < broken.size(); n++) {
-            // std::cout << "enqueue broken" << n;
-            // std::cout << broken[n] << std::endl;
-            tileBag->enqueue(broken[n]);
-        }
-        broken.clear();
     }
+    emptyBroken(tileBag);
 }
 
 void Player::addScore(int y, int x) {
@@ -139,4 +133,20 @@ void Player::addScore(int y, int x) {
     // Add score to player score
     this->score += score;
     std::cout << board[y][x].second << " " << score << " added" << std::endl;
+}
+
+
+void Player::emptyBroken(TileBag* tileBag) {
+    // Deduct points from tiles in the broken
+    this->score -= BROKEN_DEDUCTION[broken.size()];
+    std::cout << "Decuct " << BROKEN_DEDUCTION[broken.size()] << std::endl;
+
+    for(long unsigned int n = 0; n < broken.size(); n++) {
+        // std::cout << "enqueue broken" << n;
+        // std::cout << broken[n] << std::endl;
+        if(broken[n] != 'F') {
+        tileBag->enqueue(broken[n]);
+        }
+    }
+    broken.clear();
 }

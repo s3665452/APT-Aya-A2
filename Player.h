@@ -44,6 +44,8 @@ public:
     // Calculate score according to the location of a newly added tile
     void addScore(int y, int x);
 
+    // Empty broken, deduct points
+    void emptyBroken(TileBag* tileBag);
 
 
 private:

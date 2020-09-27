@@ -173,34 +173,50 @@ void GameEngine::printMosaic(Player* player) const {
     std::cout << std::endl << std::endl;
 }
 
-// Select tiles to put in store
+// Select tiles to put in store, if storeNum = 6, move tiles to the broken directly
 void GameEngine::selectTile(int factoryNum, char tile, int storeNum) {
     std::vector<char>* selectedFactory = factories->getFactory(factoryNum);
-    char* selectedStore = currentPlayer->store[storeNum-1];
    
     long unsigned int i = 0;
     while( i < selectedFactory->size()) {
         // Put F to broken directly
         if((*selectedFactory)[i] == 'F') {
           //  std::cout << "Tile: " << "F" << std::endl;
-            currentPlayer->broken.push_back('F');
+          if(currentPlayer->broken.size() < BROKEN_MAX_SIZE) {
+                currentPlayer->broken.push_back('F');
+            }
             selectedFactory->erase(selectedFactory->begin() + i);
         }
         // If it is selected tile, put it to player store or broken
         else if ((*selectedFactory)[i] == tile) {
-         //   std::cout << "Tile: " << tile << std::endl;
-            // Iterate until find empty or reach the maximum size
-            int n = 0;
-            while(selectedStore[n] != '.' && n < storeNum) {
-                n += 1;
-            }
-            // If there is a empty spot, put the tile in, otherwise put the tile to broken
-            if(n < storeNum) {
-                selectedStore[n] = tile;
+            if(storeNum != 6) {
+                //   std::cout << "Tile: " << tile << std::endl;
+                // Iterate until find empty or reach the maximum size
+                int n = 0;
+                while(currentPlayer->store[storeNum-1][n] != '.' && n < storeNum) {
+                    n += 1;
+                }
+                // If there is a empty spot, put the tile in, otherwise put the tile to broken
+                if(n < storeNum) {
+                    currentPlayer->store[storeNum-1][n] = tile;
+                }
+                else {
+                    if(currentPlayer->broken.size() < BROKEN_MAX_SIZE) {
+                        currentPlayer->broken.push_back(tile);
+                    }
+                    else {
+                        tileBag->enqueue(tile);
+                    }
+                }  
             }
             else {
-                currentPlayer->broken.push_back(tile);
-            }   
+                if(currentPlayer->broken.size() < BROKEN_MAX_SIZE) {
+                        currentPlayer->broken.push_back(tile);
+                    }
+                else {
+                        tileBag->enqueue(tile);
+                    }
+            }
             selectedFactory->erase(selectedFactory->begin() + i);
         }
         // If it is other tiles, put it to centre if selected factory is not centre
@@ -246,8 +262,10 @@ void GameEngine::getCommand() {
     // std::cout << storeNum << std::endl;
  
     if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) {
-        std::cout << "Invalid Input" << std::endl;
-        getCommand();
+        if(storeNum != 6 || !contains(factories->getFactory(factoryNum), tile)) {
+            std::cout << "Invalid Input" << std::endl;
+            getCommand();
+        }
     }
 
     selectTile(factoryNum, tile, storeNum);
@@ -264,8 +282,7 @@ void GameEngine::changePlayer() {
     }
 }
 
-// Set the player who has 'F' to current player, remove 'F'
-// Can be called only when 'F' present in the broken of a player
+// Set the player who has 'F' to current player
 void GameEngine::setFirstPlayer() {
     long unsigned int i = 0;
     while(currentPlayer->broken[i] != 'F') {
@@ -277,7 +294,6 @@ void GameEngine::setFirstPlayer() {
             i = 0;
         }
     }
-    currentPlayer->broken.erase(currentPlayer->broken.begin() + i);
 }
 
 // End game result
