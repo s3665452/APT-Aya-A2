@@ -25,6 +25,10 @@ void GameEngine::loadGame(std::string filename){
        std::string file;
        std::ifstream input (filename);
        bool readGame = false;
+       bool readPlayerMosaic = false;
+       bool readFactories = false;
+       //Factories* factories = nullptr;
+       Player* player = nullptr;
 
     //Player* mosaic[2];
     for(int x = 0; x < 2; x++) {
@@ -33,15 +37,83 @@ void GameEngine::loadGame(std::string filename){
         if(input.is_open()) {
             while(getline(input,file)) {
             if(file == "game") readGame = true;
+            else if(file == "mosaic") readPlayerMosaic = true;
+            else if(file == "factories") readFactories = true;
 
             if(readGame == true) {
                 std::string typefile;
-                std::string input;
+                std::string inputfile;
             for(int x =0; x < (int) file.length(); x++) {
                 if(file[x] != ' ') {
-                  input.push_back(file[x]);
+                  inputfile.push_back(file[x]);
                 } else {
-                  typefile = input;
+                  typefile = inputfile;
+                  inputfile = " ";
+                        } if (x == (int)file.length()-1) {
+                             if(typefile == "play"){
+                                 if(currentPlayer != nullptr && currentPlayer->getName()==inputfile){
+                                    player->printInfo();
+                                } else if(typefile == "round") {
+                                    factories->getFactory(FACTORYNUMBER);
+                                    this->newGame(false);
+                                }
+                            } if (typefile == " "){
+                                readGame = false;    
+                            }else if(readPlayerMosaic == true){
+                                std::string typefile;
+                                std::string inputfile;
+                                for(int x =0; x <(int) file.length(); x++) {
+                                    if(file[x] != ' '){
+                                        inputfile.push_back(file[x]);
+                                    } else if (file[x] == ' ') {
+                                        typefile = inputfile;
+                                        inputfile = " ";
+                                    } if(x == (int)file.length()-1) {
+                                      if(typefile == "gameName"){
+                                        player = new Player(inputfile);
+                                    } else if(typefile == "score") {
+                                        player->getScore();
+                                    } else if(typefile == "brokenPts") {
+                                        int emptyBrokenPts = 0;
+                                        if(inputfile != "E"){
+                                            for(int i = 0; i < (int)inputfile.length(); i++){
+                                                    player->emptyBroken(tileBag);
+                                                    if(inputfile[i] == 'F'){
+                                                        //player->tileTheWall;
+                                                    }
+                                                    emptyBrokenPts++;
+                                                }
+                                        if(inputfile == " ") {
+                                           for(int x = 0; x < 2; x++){
+                                               if(currentPlayer == nullptr){
+                                                    currentPlayer = player;
+                                                    x = 2;
+                                               }
+                                           }
+                                           readPlayerMosaic = false;
+                                        }
+                                      }
+                                    } else if(readFactories == true){
+                                        std::string typefile;
+                                        std::string inputfile;
+                                        for(int x =0; x <(int) inputfile.length(); x++){
+                                            if(inputfile[x] != ' '){
+                                               inputfile.push_back(inputfile[x]);  
+                                            } else if(inputfile[x] == ' '){
+                                              typefile = inputfile;
+                                              inputfile = " ";
+                                            } if(x ==(int) inputfile.length()-1) {
+                                              if(typefile == "factories") {
+                                                factories->getFactory(FACTORYNUMBER);
+                                                //int currLine = 0;
+                                                //int currCol = 0;
+                                              }
+                                            }
+                                          }
+                                        }          
+                                      }
+                                    }
+                                  }
                         }
                     }
                 }
