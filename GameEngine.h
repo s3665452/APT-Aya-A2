@@ -23,7 +23,7 @@ public:
     void changePlayer();
 
     //saved Game
-    void saveGame();
+    void saveGame(std::string filename);
 
     // Play a single round
     void playOneRound();

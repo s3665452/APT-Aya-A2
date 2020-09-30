@@ -127,9 +127,15 @@ void GameEngine::loadGame(std::string filename){
         std::cout << "Error: Please enter a valid filename!"<<std::endl;
     }
 }
-void GameEngine::saveGame() {
+void GameEngine::saveGame(std::string filename) {
+        std::fstream out;
+        out.open(filename, std::fstream::out);
+        out << GameEngine::printFactories<< std::endl;
+        out << GameEngine::printMosaic<< std::endl;
 
+        out.close();
 }
+
 
 void GameEngine::newGame(bool startgame) {
     std::string playerNameA;
