@@ -20,12 +20,13 @@ public:
     // Move Constructor
     Player(Player&& other);
 
-    // Return the scoure of the player
+    // Return the score of the player
     int getScore() const;
 
-    // Return the name of the palyer
+    // Return the name of the player
     std::string getName() const;
 
+    // Print the player's information
     void printInfo();
 
     // Return true is selected store is full
@@ -52,7 +53,6 @@ private:
 
     std::string name;
     int score;
-    int containFirst;
 };
 
 

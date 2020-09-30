@@ -16,6 +16,7 @@ public:
     void newGame(bool startgame);
     // Load a saved game
     void loadGame(std::string filename);
+    // Print the Factories
     void printFactories() const;
     void printMosaic(Player* player) const;
     void getCommand();
