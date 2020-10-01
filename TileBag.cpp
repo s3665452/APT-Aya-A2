@@ -1,7 +1,7 @@
 #include "TileBag.h"
 
 //Constructor of TileBag
-TileBag::TileBag(char* tileBagOrder){
+TileBag::TileBag(const char* tileBagOrder){
 
     int i = 0;
     while(tileBagOrder[i] != '\0' && i != TILEBAG_MAX_SIZE){
@@ -10,16 +10,6 @@ TileBag::TileBag(char* tileBagOrder){
     }
 }
 
-//Default constructor of TileBag
-TileBag::TileBag(){
-    const char* tileBagOrder = TILEBAG_ORDER;
-
-    int i = 0;
-    while(tileBagOrder[i] != '\0' && i != TILEBAG_MAX_SIZE){
-        enqueue(tileBagOrder[i]);
-        i++;
-    }
-}
 
 TileBag::TileBag(const TileBag& other) {
     queue = other.queue;
@@ -42,7 +32,7 @@ char TileBag::front() const {
 }
 
 void TileBag::enqueue(char tile) {
-    queue.addTile_back(tile);
+    queue.add_back(tile);
 }
 
 void TileBag::dequeue() {

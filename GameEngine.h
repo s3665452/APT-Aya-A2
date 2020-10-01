@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "TileBag.h"
-#include "string"
+#include <string>
 #include "Factories.h"
 
 #ifndef GAMEENGINE
@@ -42,6 +42,7 @@ private:
     Player* playerB;
     TileBag* tileBag;
     Factories* factories;
+    LinkedList<std::string> saved;
 };
 
 #endif //GAMEENGINE

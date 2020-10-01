@@ -7,8 +7,8 @@ GameEngine::GameEngine() {
     this->currentTurn = 0;
     this->playerA = nullptr;
     this->playerB = nullptr;
-    this->tileBag = new TileBag();
-    this->factories = new Factories(tileBag);
+    this->tileBag = nullptr;
+    this->factories = nullptr;
 }
 
 GameEngine::~GameEngine() {
@@ -127,13 +127,17 @@ void GameEngine::loadGame(std::string filename){
         std::cout << "Error: Please enter a valid filename!"<<std::endl;
     }
 }
-void GameEngine::saveGame(std::string filename) {
-        std::fstream out;
-        out.open(filename, std::fstream::out);
-        out << GameEngine::printFactories<< std::endl;
-        out << GameEngine::printMosaic<< std::endl;
 
-        out.close();
+
+void GameEngine::saveGame(std::string filename) {
+    std::ofstream out(filename);
+    while(saved.size() != 0) {
+        std::cout << saved.getFront() << saved.size() << std::endl;
+        out << saved.getFront() << std::endl;
+        saved.removeFront();
+    }
+    out.close();
+    std::cout << "Game saved successfully" << std::endl;
 }
 
 
@@ -141,8 +145,10 @@ void GameEngine::newGame(bool startgame) {
     std::string playerNameA;
     std::string playerNameB;
 
-    //Testing
-    //this->tileBag->printAll();
+    tileBag = new TileBag(TILEBAG_ORDER);
+    factories = new Factories(tileBag);
+   // std::string order = TILEBAG_ORDER;
+    saved.add_back(TILEBAG_ORDER);
 
     //bool loadGame = false;
     // start a new game
@@ -157,6 +163,8 @@ void GameEngine::newGame(bool startgame) {
         getline(std::cin, dummy);
         this->playerA = new Player(playerNameA);
         this->playerB = new Player(playerNameB);
+        saved.add_back(playerNameA);
+        saved.add_back(playerNameB);
         std::cout << std::endl << "Let's Play!" << std::endl;
 
         std::cout << playerA->getName() << std::endl;
@@ -326,6 +334,13 @@ void GameEngine::getCommand() {
     int storeNum;
 
     is >> turn;
+    // Save and exit when user input save
+    if(turn == "save") {
+        std::string fileName;
+        is >> fileName;
+        saveGame(fileName);
+        exitGame();
+    }
     is >> factoryNum;
     is >> tile;
     is >> storeNum;
@@ -347,6 +362,7 @@ void GameEngine::getCommand() {
     }
 
     selectTile(factoryNum, tile, storeNum);
+    saved.add_back(line);
     std::cout << "Turn successful." << std::endl;
 }
 
@@ -363,13 +379,15 @@ void GameEngine::changePlayer() {
 // Set the player who has 'F' to current player
 void GameEngine::setFirstPlayer() {
     long unsigned int i = 0;
-    while(currentPlayer->broken[i] != 'F') {
+    bool changed = false;
+    while(currentPlayer->broken[i] != 'F' && changed == false) {
         if(i < currentPlayer->broken.size()) {
             i += 1;
         }
         else {
             changePlayer();
-            i = 0;
+            // When no one has F (extremly rare), make sure to change player only once
+            changed = true;
         }
     }
 }

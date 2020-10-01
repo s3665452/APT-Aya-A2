@@ -5,8 +5,7 @@
 
 class TileBag {
 public:
-    TileBag(char* tileBagOrder);
-    TileBag();
+    TileBag(const char* tileBagOrder);
     TileBag(const TileBag& other);
     TileBag(TileBag&& other);
     ~TileBag();
@@ -17,7 +16,7 @@ public:
     void clear();
 
 private:
-    LinkedList queue;
+    LinkedList<char> queue;
 };
 
 #endif //TILEBAG
