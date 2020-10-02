@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <memory>
+#include <cstring>
 #include "Types.h"
 #include "Player.h"
 #include "TileBag.h"
@@ -15,11 +16,21 @@ void printCredits();
 void newGame();
 void loadGame();
 
-int main(void){
+int main(int argc, char *argv[]){
 
-    std::cout << "Welcome to Azul!" << std::endl << "-------------------" << std::endl;
-    openMenu();
-
+    if(argc > 2) {
+        if(strcmp(argv[1], "-t") == 0) {
+            GameEngine* gameEngine = new GameEngine();
+            gameEngine->testingMode = true;
+            gameEngine->loadFileName = argv[2];
+            gameEngine->loadGame();
+        }
+    }
+    else {
+        std::cout << "Welcome to Azul!" << std::endl << "-------------------" << std::endl;
+        openMenu();
+    }
+    
     return EXIT_SUCCESS;
 }
 
@@ -53,17 +64,12 @@ void getMenuChoice(){
 
     if(choice == 1){
         GameEngine* gameEngine = new GameEngine();
-        gameEngine->newGame(true);
+        gameEngine->newGame();
     }
     else if(choice == 2){
        GameEngine* gameEngine = new GameEngine();
-       std::string filename = " ";
-       std::cout<<"Enter the filename from which load game: ";
-       std::cin >> filename;
-       std::cout << std::endl;
-       gameEngine->loadGame(filename);
-       //std::cout << "load game (to do)" << std::endl;
-       openMenu();
+       std::cout << "Enter the filename from which load a game" << std::endl;
+       gameEngine->loadGame();
     }
     else if(choice == 3){
         printCredits();

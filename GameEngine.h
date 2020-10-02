@@ -13,9 +13,9 @@ public:
     // Deconstructor
     ~GameEngine();
     // Start a new game
-    void newGame(bool startgame);
+    void newGame();
     // Load a saved game
-    void loadGame(std::string filename);
+    void loadGame();
     // Print the Factories
     void printFactories() const;
     void printMosaic(Player* player) const;
@@ -34,6 +34,12 @@ public:
 
     // End game result
     void printResult();
+
+    // Whether it is in the testing mode
+    bool testingMode;
+
+    // Name of the file to be load
+    std::string loadFileName;
 
 private:
     int currentTurn;
