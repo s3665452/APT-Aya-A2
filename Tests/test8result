@@ -1,3 +1,26 @@
-Invalid Input At Line 8
+Factories:
+0: F
+1: Y U R B
+2: Y Y U L
+3: U R U L
+4: L B B U
+5: Y U L R
 
-Goodbye
+Score for Player Armin: 9
+Mosaic for Armin:
+1:         . || . . . . L
+2:       . . || . . Y R .
+3:     . . . || . L . . R
+4:   . . . . || . U . . .
+5: . . . . . || . R . . .
+broken:
+
+Score for Player Stuart: 4
+Mosaic for Stuart:
+1:         . || . Y . . .
+2:       . . || . B . . U
+3:     . . . || . . . Y .
+4:   . . . . || . . L . .
+5: . . . . . || . . . . B
+broken:
+

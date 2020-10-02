@@ -1,25 +1,25 @@
 Factories:
-0: 
-1: 
-2: 
-3: 
-4: 
-5: 
+0: F
+1: Y U R B
+2: Y Y U L
+3: U R U L
+4: L B B U
+5: Y U L R
 
-Score for Armin: 0
+Score for Player Armin: 9
 Mosaic for Armin:
-1:         . || B . . U .
+1:         . || . . . . L
 2:       . . || . . Y R .
 3:     . . . || . L . . R
-4:   . . . . || . . L . .
+4:   . . . . || . U . . .
 5: . . . . . || . R . . .
-broken: Y
+broken:
 
-Score for Stuart: 0
+Score for Player Stuart: 4
 Mosaic for Stuart:
 1:         . || . Y . . .
 2:       . . || . B . . U
-3:     . . . || . . L Y .
-4:   . . . . || . . . B .
-5: . . U U U || . . . . .
-broken: F
+3:     . . . || . . . Y .
+4:   . . . . || . . L . .
+5: . . . . . || . . . . B
+broken:
