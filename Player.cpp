@@ -139,7 +139,13 @@ void Player::addScore(int y, int x) {
 
 void Player::emptyBroken(TileBag* tileBag) {
     // Deduct points from tiles in the broken
-    this->score -= BROKEN_DEDUCTION[broken.size()];
+    if(BROKEN_DEDUCTION[broken.size()] > this->score) {
+        this->score = 0;
+    }
+    else {
+        this->score -= BROKEN_DEDUCTION[broken.size()];
+    }
+    
     std::cout << "Decuct " << BROKEN_DEDUCTION[broken.size()] << std::endl;
 
     for(long unsigned int n = 0; n < broken.size(); n++) {

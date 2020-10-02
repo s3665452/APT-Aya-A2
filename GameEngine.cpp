@@ -9,6 +9,8 @@ GameEngine::GameEngine() {
     this->playerB = nullptr;
     this->tileBag = nullptr;
     this->factories = nullptr;
+    this->testingMode = false;
+    this->loadFileName = " ";
 }
 
 GameEngine::~GameEngine() {
@@ -18,116 +20,135 @@ GameEngine::~GameEngine() {
     delete factories;
 }
 
-void GameEngine::loadGame(std::string filename){
-    if(filename.size() > 0){
-       filename += ".save";
-       filename = "save/"+filename;
-       std::string file;
-       std::ifstream input (filename);
-       bool readGame = false;
-       bool readPlayerMosaic = false;
-       bool readFactories = false;
-       //Factories* factories = nullptr;
-       Player* player = nullptr;
+void GameEngine::loadGame() {
+    if(loadFileName == " ") {
+        std::cout << "> ";
+        std::cin >> loadFileName;
 
-    //Player* mosaic[2];
-    for(int x = 0; x < 2; x++) {
-      //      mosaic[x] = nullptr;
+        if(std::cin.eof()){
+            exitGame();
         }
-        if(input.is_open()) {
-            while(getline(input,file)) {
-            if(file == "game") readGame = true;
-            else if(file == "mosaic") readPlayerMosaic = true;
-            else if(file == "factories") readFactories = true;
+    }
 
-            if(readGame == true) {
-                std::string typefile;
-                std::string inputfile;
-            for(int x =0; x < (int) file.length(); x++) {
-                if(file[x] != ' ') {
-                  inputfile.push_back(file[x]);
-                } else {
-                  typefile = inputfile;
-                  inputfile = " ";
-                        } if (x == (int)file.length()-1) {
-                             if(typefile == "play"){
-                                 if(currentPlayer != nullptr && currentPlayer->getName()==inputfile){
-                                    player->printInfo();
-                                } else if(typefile == "round") {
-                                    factories->getFactory(FACTORYNUMBER);
-                                    this->newGame(false);
-                                }
-                            } if (typefile == " "){
-                                readGame = false;    
-                            }else if(readPlayerMosaic == true){
-                                std::string typefile;
-                                std::string inputfile;
-                                for(int x =0; x <(int) file.length(); x++) {
-                                    if(file[x] != ' '){
-                                        inputfile.push_back(file[x]);
-                                    } else if (file[x] == ' ') {
-                                        typefile = inputfile;
-                                        inputfile = " ";
-                                    } if(x == (int)file.length()-1) {
-                                      if(typefile == "gameName"){
-                                        player = new Player(inputfile);
-                                    } else if(typefile == "score") {
-                                        player->getScore();
-                                    } else if(typefile == "brokenPts") {
-                                        int emptyBrokenPts = 0;
-                                        if(inputfile != "E"){
-                                            for(int i = 0; i < (int)inputfile.length(); i++){
-                                                    player->emptyBroken(tileBag);
-                                                    if(inputfile[i] == 'F'){
-                                                        //player->tileTheWall;
-                                                    }
-                                                    emptyBrokenPts++;
-                                                }
-                                        if(inputfile == " ") {
-                                           for(int x = 0; x < 2; x++){
-                                               if(currentPlayer == nullptr){
-                                                    currentPlayer = player;
-                                                    x = 2;
-                                               }
-                                           }
-                                           readPlayerMosaic = false;
-                                        }
-                                      }
-                                    } else if(readFactories == true){
-                                        std::string typefile;
-                                        std::string inputfile;
-                                        for(int x =0; x <(int) inputfile.length(); x++){
-                                            if(inputfile[x] != ' '){
-                                               inputfile.push_back(inputfile[x]);  
-                                            } else if(inputfile[x] == ' '){
-                                              typefile = inputfile;
-                                              inputfile = " ";
-                                            } if(x ==(int) inputfile.length()-1) {
-                                              if(typefile == "factories") {
-                                                factories->getFactory(FACTORYNUMBER);
-                                                //int currLine = 0;
-                                                //int currCol = 0;
-                                              }
-                                            }
-                                          }
-                                        }          
-                                      }
-                                    }
-                                  }
-                        }
-                    }
+    std::ifstream infile(loadFileName);
+
+    std::string line;
+    int lineNum = 0;
+    while (std::getline(infile, line)) {
+        std::cout << line << line.size() << std::endl;
+        if(lineNum == 0) {
+            if(line.size() != 100) {
+                std::cout << "Invalid Input" << std::endl;
+                if(testingMode == false) {
+                    loadFileName = " ";
+                    loadGame();
+                }
+                else {
+                    exitGame();
                 }
             }
-       input.close();
-      } else {
-        //if the file cannot be found
-        std::cout << "File cannot be found" <<std::endl;
-      }
-    } else {   
-        std::cout << "Error: Please enter a valid filename!"<<std::endl;
+            else {
+                const char* ORDER = line.c_str();
+                this->tileBag = new TileBag(ORDER);
+                this->factories = new Factories(tileBag);
+                saved.add_back(line);
+            }
+        }
+        else if (lineNum == 1) {
+            this->playerA = new Player(line);
+            saved.add_back(line);
+        }
+        else if (lineNum == 2) {
+            this->playerB = new Player(line);
+            saved.add_back(line);
+        }
+        else {
+            std::istringstream is(line);
+
+            std::string turn;
+            int factoryNum;
+            char tile;
+            int storeNum;
+
+            is >> turn;
+            is >> factoryNum;
+            is >> tile;
+            is >> storeNum;
+
+            if(factories->isEmpty()) {
+                setFirstPlayer();
+                playerA->tileTheWall(tileBag);
+                playerB->tileTheWall(tileBag);
+                factories->fillFactories(tileBag);
+                currentTurn += 1;
+            }
+            else {
+                if(lineNum == 3) {
+                    currentPlayer = playerA;
+                }
+                else {
+                    changePlayer();
+                }
+            }
+
+            selectTile(factoryNum, tile, storeNum);
+            saved.add_back(line);
+        }
+        lineNum += 1;
+    }
+    // If there are less than 3 lines in the file, reload
+    if(lineNum < 3) {
+        std::cout << "Invalid Input" << std::endl;
+        if(testingMode == false) {
+            loadFileName = " ";
+            loadGame();
+        } else {
+            exitGame();
+        }
+    }
+
+    if(this->testingMode == false) {
+        std::cout << "Azul game successfully loaded" << std::endl << std::endl;
+        std::string dummy;
+        getline(std::cin, dummy);
+        while(!factories->isEmpty())
+        {
+            //The turn run until the factories is empty
+            std::cout<<"TURN FOR PLAYER: "<<currentPlayer->getName() << std::endl;
+            printFactories();
+            printMosaic(currentPlayer);
+            getCommand();
+            changePlayer();
+        }
+
+        printMosaic(playerA);
+        printMosaic(playerB);
+        setFirstPlayer();
+        std::cout << "First player set " << currentPlayer->getName() << std::endl;
+        playerA->tileTheWall(tileBag);
+        std::cout << "PlayerA tile" << std::endl;
+        playerB->tileTheWall(tileBag);
+        std::cout << "PlayerB tile" << std::endl;
+
+        factories->fillFactories(tileBag);
+        currentTurn += 1;
+
+        while(currentTurn < 2) {
+            playOneRound();
+            factories->fillFactories(tileBag);
+            currentTurn += 1;
+        }
+        printResult();
+    }
+    else {
+        printFactories();
+        std::cout << "Score for Player " << playerA->getName() << ": " << playerA->getScore() << std::endl;
+        printMosaic(playerA);
+        std::cout << "Score for Player " << playerB->getName() << ": " << playerB->getScore() << std::endl;
+        printMosaic(playerB);
     }
 }
-
+    
 
 void GameEngine::saveGame(std::string filename) {
     std::ofstream out(filename);
@@ -141,55 +162,44 @@ void GameEngine::saveGame(std::string filename) {
 }
 
 
-void GameEngine::newGame(bool startgame) {
+void GameEngine::newGame() {
     std::string playerNameA;
     std::string playerNameB;
 
     tileBag = new TileBag(TILEBAG_ORDER);
     factories = new Factories(tileBag);
-   // std::string order = TILEBAG_ORDER;
     saved.add_back(TILEBAG_ORDER);
 
-    //bool loadGame = false;
     // start a new game
-    if (startgame == true) {
-        //if the game is a new game then initialize
-        std::cout << "Starting a New Game" << std::endl << std::endl;
-        std::cout << "Enter a name for player 1" << std::endl << "> ";
-        std::cin >> playerNameA;
-        std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
-        std::cin >> playerNameB;
-        std::string dummy;
-        getline(std::cin, dummy);
-        this->playerA = new Player(playerNameA);
-        this->playerB = new Player(playerNameB);
-        saved.add_back(playerNameA);
-        saved.add_back(playerNameB);
-        std::cout << std::endl << "Let's Play!" << std::endl;
+    std::cout << "Starting a New Game" << std::endl << std::endl;
+    std::cout << "Enter a name for player 1" << std::endl << "> ";
+    std::cin >> playerNameA;
+    std::cout << std::endl << "Enter a name for player 2" << std::endl << "> ";
+    std::cin >> playerNameB;
+    std::string dummy;
+    getline(std::cin, dummy);
+    this->playerA = new Player(playerNameA);
+    this->playerB = new Player(playerNameB);
+    saved.add_back(playerNameA);
+    saved.add_back(playerNameB);
+    std::cout << std::endl << "Let's Play!" << std::endl;
 
-        std::cout << playerA->getName() << std::endl;
-        std::cout << playerB->getName() << std::endl;
-    } else {
-        //continue if the game is a load game
-        std::cout << "Azul game successfully loaded" << std::endl;
-        std::cout <<  "<game play continues from here>"<< std::endl;
-        std::cout << std::endl;
-       // loadGame = true;
-}
-        std::cout << std::endl;
-        std::cout << "=== Start Round ===";
-        std::cout << std::endl;
+    std::cout << playerA->getName() << std::endl;
+    std::cout << playerB->getName() << std::endl;
 
-        this->currentPlayer = playerA;
+    std::cout << std::endl;
+    std::cout << "=== Start Round ===";
+    std::cout << std::endl;
 
+    this->currentPlayer = playerA;
 
-        // >>>play two rounds <<<
-        while(currentTurn < 2) {
-            playOneRound();
-            factories->fillFactories(tileBag);
-            currentTurn += 1;
-        }
-        printResult();
+    // >>>play two rounds <<<
+    while(currentTurn < 2) {
+        playOneRound();
+        factories->fillFactories(tileBag);
+        currentTurn += 1;
+    }
+    printResult();
 }
 
 void GameEngine::playOneRound(){
@@ -354,16 +364,17 @@ void GameEngine::getCommand() {
     // std::cout << tile << std::endl;
     // std::cout << storeNum << std::endl;
  
-    if(turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) {
-        if(storeNum != 6 || !contains(factories->getFactory(factoryNum), tile)) {
-            std::cout << "Invalid Input" << std::endl;
-            getCommand();
-        }
+    if((turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) && (storeNum != 6 || !contains(factories->getFactory(factoryNum), tile))) {
+        std::cout << "Invalid Input" << std::endl;
+        getCommand();
+    }
+    else {
+        selectTile(factoryNum, tile, storeNum);
+        saved.add_back(line);
+        std::cout << "Turn successful." << std::endl;
     }
 
-    selectTile(factoryNum, tile, storeNum);
-    saved.add_back(line);
-    std::cout << "Turn successful." << std::endl;
+
 }
 
 // Change current player
