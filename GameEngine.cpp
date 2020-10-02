@@ -66,6 +66,8 @@ void GameEngine::loadGame() {
         }
         else {
             std::istringstream is(line);
+           // std::cout << line << std::endl;
+           // printFactories();
 
             std::string turn;
             int factoryNum;
@@ -79,10 +81,16 @@ void GameEngine::loadGame() {
 
 
             if(factories->isEmpty()) {
+                //std::cout << "Empty" << std::endl;
+               // printMosaic(currentPlayer);
                 setFirstPlayer();
+                //std::cout << "First set" << std::endl;
+               // printMosaic(playerA);
                 playerA->tileTheWall(tileBag);
+                //std::cout << "P1 tiled" << std::endl;
                 playerB->tileTheWall(tileBag);
                 factories->fillFactories(tileBag);
+                //std::cout << "Filled" << std::endl;
                 currentTurn += 1;
             }
             else {
@@ -136,11 +144,11 @@ void GameEngine::loadGame() {
         printMosaic(playerA);
         printMosaic(playerB);
         setFirstPlayer();
-        std::cout << "First player set " << currentPlayer->getName() << std::endl;
+       // std::cout << "First player set " << currentPlayer->getName() << std::endl;
         playerA->tileTheWall(tileBag);
-        std::cout << "PlayerA tile" << std::endl;
+       // std::cout << "PlayerA tile" << std::endl;
         playerB->tileTheWall(tileBag);
-        std::cout << "PlayerB tile" << std::endl;
+      //  std::cout << "PlayerB tile" << std::endl;
 
         factories->fillFactories(tileBag);
         currentTurn += 1;
@@ -153,6 +161,13 @@ void GameEngine::loadGame() {
         printResult();
     }
     else {
+        if(factories->isEmpty()) {
+            setFirstPlayer();
+            playerA->tileTheWall(tileBag);
+            playerB->tileTheWall(tileBag);
+            factories->fillFactories(tileBag);
+            currentTurn += 1;
+        }
         printFactories();
         std::cout << "Score for Player " << playerA->getName() << ": " << playerA->getScore() << std::endl;
         printMosaic(playerA);
@@ -404,15 +419,22 @@ void GameEngine::changePlayer() {
 void GameEngine::setFirstPlayer() {
     long unsigned int i = 0;
     bool changed = false;
-    while(currentPlayer->broken[i] != 'F' && changed == false) {
-        if(i < currentPlayer->broken.size()) {
-            i += 1;
+    //std::cout << "Size: " << currentPlayer->broken.size() << std::endl;
+    //std::cout << currentPlayer->broken[0] << std::endl;
+    if(currentPlayer->broken.size() > 0) {
+        while(currentPlayer->broken[i] != 'F' && changed == false) {
+            if(i < currentPlayer->broken.size()) {
+                i += 1;
+                //std::cout << i << std::endl;
+            }
+            else {
+                changePlayer();
+                // When no one has F (extremly rare), make sure to change player only once
+                changed = true;
+            }
         }
-        else {
-            changePlayer();
-            // When no one has F (extremly rare), make sure to change player only once
-            changed = true;
-        }
+    } else {
+        changePlayer();
     }
 }
 
