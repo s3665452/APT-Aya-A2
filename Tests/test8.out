@@ -1,0 +1,25 @@
+Factories:
+0: 
+1: 
+2: 
+3: 
+4: 
+5: 
+
+Score for Armin: 0
+Mosaic for Armin:
+1:         . || B . . U .
+2:       . . || . . Y R .
+3:     . . . || . L . . R
+4:   . . . . || . . L . .
+5: . . . . . || . R . . .
+broken: Y
+
+Score for Stuart: 0
+Mosaic for Stuart:
+1:         . || . Y . . .
+2:       . . || . B . . U
+3:     . . . || . . L Y .
+4:   . . . . || . . . B .
+5: . . U U U || . . . . .
+broken: F
