@@ -133,7 +133,7 @@ void Player::addScore(int y, int x) {
     }
     // Add score to player score
     this->score += score;
-    std::cout << board[y][x].second << " " << score << " added" << std::endl;
+   // std::cout << board[y][x].second << " " << score << " added" << std::endl;
 }
 
 
@@ -146,7 +146,7 @@ void Player::emptyBroken(TileBag* tileBag) {
         this->score -= BROKEN_DEDUCTION[broken.size()];
     }
     
-    std::cout << "Decuct " << BROKEN_DEDUCTION[broken.size()] << std::endl;
+  //  std::cout << "Decuct " << BROKEN_DEDUCTION[broken.size()] << std::endl;
 
     for(long unsigned int n = 0; n < broken.size(); n++) {
         // std::cout << "enqueue broken" << n;

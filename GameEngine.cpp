@@ -110,7 +110,7 @@ void GameEngine::loadGame() {
     }
     // If there are less than 3 lines in the file, reload
     if(lineNum < 3) {
-        std::cout << "Invalid Fil" << std::endl;
+        std::cout << "Invalid File" << std::endl;
         if(testingMode == false) {
             loadFileName = " ";
             loadGame();
