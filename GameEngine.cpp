@@ -133,7 +133,7 @@ void GameEngine::loadGame() {
         factories->fillFactories(tileBag);
         currentTurn += 1;
 
-        while(currentTurn < 2) {
+        while(currentTurn < TURNS) {
             playOneRound();
             factories->fillFactories(tileBag);
             currentTurn += 1;
@@ -193,8 +193,8 @@ void GameEngine::newGame() {
 
     this->currentPlayer = playerA;
 
-    // >>>play two rounds <<<
-    while(currentTurn < 2) {
+    // >>>play 5 rounds <<<
+    while(currentTurn < TURNS) {
         playOneRound();
         factories->fillFactories(tileBag);
         currentTurn += 1;
