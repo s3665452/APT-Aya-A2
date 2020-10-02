@@ -2,6 +2,7 @@
 #include "Types.h"
 #include <sstream>
 #include <fstream>
+#include <cstring>
 
 GameEngine::GameEngine() {
     this->currentTurn = 0;
@@ -34,11 +35,12 @@ void GameEngine::loadGame() {
 
     std::string line;
     int lineNum = 0;
+
     while (std::getline(infile, line)) {
-        std::cout << line << line.size() << std::endl;
+       // std::cout << line << line.size() << std::endl;
         if(lineNum == 0) {
             if(line.size() != 100) {
-                std::cout << "Invalid Input" << std::endl;
+                std::cout << "Invalid File" << std::endl;
                 if(testingMode == false) {
                     loadFileName = " ";
                     loadGame();
@@ -75,6 +77,7 @@ void GameEngine::loadGame() {
             is >> tile;
             is >> storeNum;
 
+
             if(factories->isEmpty()) {
                 setFirstPlayer();
                 playerA->tileTheWall(tileBag);
@@ -91,14 +94,23 @@ void GameEngine::loadGame() {
                 }
             }
 
-            selectTile(factoryNum, tile, storeNum);
-            saved.add_back(line);
+            if((turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) && (storeNum != 6 || !contains(factories->getFactory(factoryNum), tile))) {
+                //std::string newLine = "\n";
+                if(line.size() > 1) {
+                std::cout << "Invalid Input At Line " << lineNum + 1 << std::endl;
+                exitGame();
+                }
+            }
+            else {
+                selectTile(factoryNum, tile, storeNum);
+                saved.add_back(line);
+           }
         }
         lineNum += 1;
     }
     // If there are less than 3 lines in the file, reload
     if(lineNum < 3) {
-        std::cout << "Invalid Input" << std::endl;
+        std::cout << "Invalid Fil" << std::endl;
         if(testingMode == false) {
             loadFileName = " ";
             loadGame();
@@ -232,11 +244,12 @@ void GameEngine::printFactories() const {
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl;
 }
 
 // Print mosaic for a player
 void GameEngine::printMosaic(Player* player) const {
-    std::cout << std::endl << "Mosaic for " << player->getName() << ":" << std::endl;
+    std::cout << "Mosaic for " << player->getName() << ":" << std::endl;
     for(int i = 0; i < MOSAIC_DIM; i++) {
         // Print row number
         std::cout << i + 1 << ":";
@@ -254,9 +267,9 @@ void GameEngine::printMosaic(Player* player) const {
             std::cout << " " << player->board[i][n].second;
         }
         // Print underlaying colours (test)
-        for(int n = 0; n < MOSAIC_DIM; n++) {
-            std::cout << " " << player->board[i][n].first;
-        }
+        // for(int n = 0; n < MOSAIC_DIM; n++) {
+        //     std::cout << " " << player->board[i][n].first;
+        // }
         std::cout << std::endl;
        
     }
