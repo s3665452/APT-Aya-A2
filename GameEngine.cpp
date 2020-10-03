@@ -36,7 +36,7 @@ void GameEngine::loadGame() {
     std::string line;
     int lineNum = 0;
 
-    while (std::getline(infile, line)) {
+    while (std::getline(infile, line) && currentTurn < TURNS) {
        // std::cout << line << line.size() << std::endl;
         if(lineNum == 0) {
             if(line.size() != 100) {
@@ -134,33 +134,35 @@ void GameEngine::loadGame() {
 
     if(this->testingMode == false) {
         std::cout << "Azul game successfully loaded" << std::endl << std::endl;
-        std::string dummy;
-        getline(std::cin, dummy);
-       // changePlayer();
-        while(!factories->isEmpty())
-        {
-            //The turn run until the factories is empty
-            std::cout<<"TURN FOR PLAYER: "<< currentPlayer->getName() << std::endl;
-            printFactories();
-            printMosaic(currentPlayer);
-            getCommand();
-            changePlayer();
+        if(currentTurn < TURNS) {
+            std::string dummy;
+            getline(std::cin, dummy);
+            // changePlayer();
+            while(!factories->isEmpty())
+            {
+                //The turn run until the factories is empty
+                std::cout<<"TURN FOR PLAYER: "<< currentPlayer->getName() << std::endl;
+                printFactories();
+                printMosaic(currentPlayer);
+                getCommand();
+                changePlayer();
+            }
+
+            // printMosaic(playerA);
+            // printMosaic(playerB);
+            setFirstPlayer();
+            // std::cout << "First player set " << currentPlayer->getName() << std::endl;
+            playerA->tileTheWall(tileBag);
+            // std::cout << "PlayerA tile" << std::endl;
+            playerB->tileTheWall(tileBag);
+            //  std::cout << "PlayerB tile" << std::endl;
+            std::cout << playerA->getName() << " Score: " << playerA->getScore() << std::endl;
+            std::cout << playerB->getName() << " Score: " << playerB->getScore() << std::endl;
+            std::cout << "=== End Round " << currentTurn + 1 << "===";
+
+            factories->fillFactories(tileBag);
+            currentTurn += 1;
         }
-
-        // printMosaic(playerA);
-        // printMosaic(playerB);
-        setFirstPlayer();
-       // std::cout << "First player set " << currentPlayer->getName() << std::endl;
-        playerA->tileTheWall(tileBag);
-       // std::cout << "PlayerA tile" << std::endl;
-        playerB->tileTheWall(tileBag);
-      //  std::cout << "PlayerB tile" << std::endl;
-        std::cout << playerA->getName() << " Score: " << playerA->getScore() << std::endl;
-        std::cout << playerB->getName() << " Score: " << playerB->getScore() << std::endl;
-        std::cout << "=== End Round " << currentTurn + 1 << "===";
-
-        factories->fillFactories(tileBag);
-        currentTurn += 1;
 
         while(currentTurn < TURNS) {
             playOneRound();
