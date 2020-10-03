@@ -1,26 +1,26 @@
 Factories:
-0:
-1:
-2:
-3:
-4:
-5:
+0: F
+1: B U Y Y
+2: Y U B B
+3: L B U U
+4: U R U L
+5: L L B B
 
-Score for Player A1: 3
+Score for Player A1: 19
 Mosaic for A1:
-1:         L || . Y . . .
-2:       . . || . B . . .
-3:     R R R || U . . . .
-4:   R R R R || . . . . .
-5: Y Y Y Y Y || . . . . .
-broken: F R
+1:         . || . Y . . L
+2:       . . || . B . . U
+3:     . . . || U L . . R
+4:   . . . . || R . . . Y
+5: . . R R R || Y . . . .
+broken:
 
-Score for Player B1: 2
+Score for Player B1: 9
 Mosaic for B1:
-1:         B || . . . . L
-2:       . . || . . Y . .
-3:     U U U || . . . . R
-4:   . L L L || . . . . .
-5: R R R R R || . . . . .
-broken: U
+1:         . || B . . U L
+2:       . B || . . Y . .
+3:     . . . || U . . . R
+4:   . . . . || . . L . .
+5: . . . . . || Y R . . .
+broken:
 

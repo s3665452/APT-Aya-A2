@@ -1,26 +1,26 @@
 Factories:
-0: F R L B U U L Y B R
-1:
-2:
-3:
-4:
-5:
+0: F
+1: L B Y Y
+2: R Y U U
+3: L U R Y
+4: Y Y L U
+5: R Y Y U
 
-Score for Player Chris: 0
+Score for Player Chris: 9
 Mosaic for Chris:
-1:         L || . . . . .
-2:       Y Y || . . . . .
-3:     U U U || . . . . .
-4:   . . . . || . . . . .
-5: . . . . . || . . . . .
+1:         . || . Y . . L
+2:       . . || . B Y . .
+3:     . . L || U . . . .
+4:   . . . . || . . . B .
+5: . . . . . || . . . L .
 broken:
 
-Score for Player Amy: 0
+Score for Player Amy: 9
 Mosaic for Amy:
-1:         . || . . . . .
-2:       B B || . . . . .
-3:     R R R || . . . . .
-4:   . . . . || . . . . .
-5: . . . . . || . . . . .
+1:         . || B Y . . .
+2:       . . || . B . R .
+3:     . U U || . . . . R
+4:   . . . . || . U . . .
+5: . . . . . || . R . . .
 broken:
 

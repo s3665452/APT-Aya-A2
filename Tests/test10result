@@ -1,0 +1,26 @@
+Factories:
+0: F
+1: U U U R
+2: L L B B
+3: B Y Y Y
+4: Y U U U
+5: R B B U
+
+Score for Player Ain: 79
+Mosaic for Ain:
+1:         . || B Y R U L
+2:       . . || L B Y R U
+3:     . . . || U L B Y R
+4:   . . . . || R U L B Y
+5: . . . . . || Y R U L B
+broken:
+
+Score for Player Mich: 96
+Mosaic for Mich:
+1:         . || B Y R U L
+2:       . . || L B Y R U
+3:     . . . || U L B Y R
+4:   . . . . || R U L B Y
+5: . . . . . || Y R U L B
+broken:
+
