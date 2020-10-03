@@ -405,7 +405,11 @@ void GameEngine::getCommand() {
     // std::cout << tile << std::endl;
     // std::cout << storeNum << std::endl;
  
-    if((turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) && (storeNum != 6 || !contains(factories->getFactory(factoryNum), tile))) {
+    if((turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || 
+        storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || 
+        currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && 
+        currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) && 
+        (storeNum != 6 || !contains(factories->getFactory(factoryNum), tile))) {
         std::cout << "Invalid Input" << std::endl;
         getCommand();
     }
