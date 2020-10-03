@@ -1,5 +1,6 @@
 Factories:
 0: F
+<<<<<<< HEAD
 1: B U Y Y
 2: Y U B B
 3: L B U U
@@ -23,3 +24,29 @@ Mosaic for B1:
 4:   . . . . || . . L . .
 5: . . . . . || Y R . . .
 broken:
+=======
+1: Y Y U R
+2: R Y Y Y
+3: U L B Y
+4: R Y U Y
+5: L L L Y
+
+Score for Player A1: 8
+Mosaic for A1:
+1:         . || . Y . . L
+2:       . . || . B . . .
+3:     . . . || U . . . R
+4:   . . . . || R . . . .
+5: . . . . . || Y . . . .
+broken:
+
+Score for Player B1: 4
+Mosaic for B1:
+1:         . || B . . . L
+2:       . . || . . Y . .
+3:     . . . || U . . . R
+4:   . L L L || . . . . .
+5: . . . . . || . R . . .
+broken:
+
+>>>>>>> b6129b10048f1035e193d92be8295b2ebe8e3371
