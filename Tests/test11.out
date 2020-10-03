@@ -1,0 +1,26 @@
+Factories:
+0: Y Y
+1:
+2:
+3:
+4:
+5:
+
+Score for Player Eve: 18
+Mosaic for Eve:
+1:         . || B . R U .
+2:       R R || . B Y . U
+3:     Y Y Y || U . B . .
+4:   U U U U || . . L B .
+5: . . . . . || . R U . .
+broken: F
+
+Score for Player El: 32
+Mosaic for El:
+1:         . || . Y R . L
+2:       L L || . . Y R U
+3:     R R R || U L B Y .
+4:   B B B B || R . L . Y
+5: . . . Y Y || . . . L .
+broken:
+

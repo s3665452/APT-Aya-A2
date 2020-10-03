@@ -158,7 +158,7 @@ void GameEngine::loadGame() {
             //  std::cout << "PlayerB tile" << std::endl;
             std::cout << playerA->getName() << " Score: " << playerA->getScore() << std::endl;
             std::cout << playerB->getName() << " Score: " << playerB->getScore() << std::endl;
-            std::cout << "=== End Round " << currentTurn + 1 << "===";
+            std::cout << "=== End Of Round " << currentTurn + 1 << " ===" << std::endl;
 
             factories->fillFactories(tileBag);
             currentTurn += 1;
@@ -190,14 +190,19 @@ void GameEngine::loadGame() {
 
 void GameEngine::saveGame(std::string filename) {
     std::ofstream out(filename);
-    while(saved.size() != 0) {
-        std::cout << saved.getFront() << saved.size() << std::endl;
-        out << saved.getFront() << std::endl;
-        saved.removeFront();
-        std::cout << "Front removed, size: " << saved.size() << std::endl;
+   // while(saved.size() != 0) {
+      //  std::cout << saved.getFront() << saved.size() << std::endl;
+    //   LinkedList<std::string> copy = LinkedList<std::string>(saved);
+    //     out << copy.getFront() << std::endl;
+    //     copy.removeFront();
+    for(int i = 0; i < saved.size(); i++) {
+        out << saved.get(i) << std::endl;
     }
+    out << std::endl;
+       // std::cout << "Front removed, size: " << saved.size() << std::endl;
+//}
     out.close();
-    std::cout << "Game saved successfully" << std::endl;
+    std::cout << "Game successfully saved to " << filename << std::endl;
 }
 
 
@@ -223,8 +228,8 @@ void GameEngine::newGame() {
     saved.add_back(playerNameB);
     std::cout << std::endl << "Let's Play!" << std::endl;
 
-    std::cout << playerA->getName() << std::endl;
-    std::cout << playerB->getName() << std::endl;
+    // std::cout << playerA->getName() << std::endl;
+    // std::cout << playerB->getName() << std::endl;
 
     this->currentPlayer = playerA;
 
@@ -239,7 +244,7 @@ void GameEngine::newGame() {
 
 void GameEngine::playOneRound(){
     std::cout << std::endl;
-    std::cout << "=== Start Round " << currentTurn + 1 << "===";
+    std::cout << "=== Start Round " << currentTurn + 1 << " ===";
     std::cout << std::endl;
     while(!factories->isEmpty()) {
         //The turn run until the factories is empty
@@ -260,7 +265,7 @@ void GameEngine::playOneRound(){
 
     std::cout << playerA->getName() << " Score: " << playerA->getScore() << std::endl;
     std::cout << playerB->getName() << " Score: " << playerB->getScore() << std::endl;
-    std::cout << "=== End Round " << currentTurn + 1 << "===";
+    std::cout << "=== End Of Round " << currentTurn + 1 << " ===" << std::endl;
 }
 
 void GameEngine::printFactories() const {
@@ -390,36 +395,36 @@ void GameEngine::getCommand() {
         std::string fileName;
         is >> fileName;
         saveGame(fileName);
-        exitGame();
-    }
-    is >> factoryNum;
-    is >> tile;
-    is >> storeNum;
+        getCommand();
+    } 
+        else {
+        is >> factoryNum;
+        is >> tile;
+        is >> storeNum;
 
-    if(std::cin.eof()){
-        exitGame();
-    }
+        if(std::cin.eof()){
+            exitGame();
+        }
 
     // std::cout << turn << std::endl;
     // std::cout << factoryNum << std::endl;
     // std::cout << tile << std::endl;
     // std::cout << storeNum << std::endl;
  
-    if((turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || 
-        storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || 
-        currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && 
-        currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) && 
-        (storeNum != 6 || !contains(factories->getFactory(factoryNum), tile))) {
-        std::cout << "Invalid Input" << std::endl;
-        getCommand();
+        if((turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || 
+            storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || 
+            currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && 
+            currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) && 
+            (storeNum != 6 || !contains(factories->getFactory(factoryNum), tile))) {
+            std::cout << "Invalid Input" << std::endl;
+            getCommand();
+        }
+        else {
+            selectTile(factoryNum, tile, storeNum);
+            saved.add_back(line);
+            std::cout << "Turn successful." << std::endl << std::endl;
+        }
     }
-    else {
-        selectTile(factoryNum, tile, storeNum);
-        saved.add_back(line);
-        std::cout << "Turn successful." << std::endl;
-    }
-
-
 }
 
 // Change current player
@@ -450,19 +455,18 @@ void GameEngine::setFirstPlayer() {
 
 // End game result
 void GameEngine::printResult() {
-
     // Test
     printMosaic(playerA);
     printMosaic(playerB);
-        std::cout<<std::endl;
-        std::cout<<"=== GAME OVER ===";
-        std::cout<<std::endl;
+    std::cout<<std::endl;
+    std::cout<<"=== GAME OVER ===";
+    std::cout<<std::endl;
                             
-        // winner of the game
-        std::cout << std::endl;
-        std::cout << "Final Scores: " << std::endl;
-        std::cout << playerA->getName()<< ": " << playerA->getScore() << std::endl; 
-        std::cout << playerB->getName()<< ": " << playerB->getScore() << std::endl; 
+    // winner of the game
+    std::cout << std::endl;
+    std::cout << "Final Scores: " << std::endl;
+    std::cout << playerA->getName()<< ": " << playerA->getScore() << std::endl; 
+    std::cout << playerB->getName()<< ": " << playerB->getScore() << std::endl; 
 
     if(playerA->getScore() == playerB->getScore()) {
         std::cout << "Draw!" << std::endl;

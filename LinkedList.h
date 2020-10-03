@@ -34,6 +34,8 @@ public:
 
    T getFront() const;
 
+   T get(int index) const;
+
     /**
     * Add the tile to the back of the Linked List
     */
@@ -96,6 +98,17 @@ LinkedList<T>::~LinkedList(){
 template<typename T>
 int LinkedList<T>::size() const{
     return this->length;
+}
+
+template<typename T>
+T LinkedList<T>::get(int index) const {
+    T ret = T();
+    Node<T>* current = head;
+    for(int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    ret = current->value;
+    return ret;
 }
 
 //get the first value
