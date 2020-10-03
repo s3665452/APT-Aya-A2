@@ -8,17 +8,26 @@
 template<typename T>
 class Node {
 public:	
-    Node(T value, Node* next);
+    Node(T value, Node* next, Node* prev);
 	Node(Node& other);
     
+    // Value stored in the node
     T value;
+
+    // A pointer to the next node
     Node* next;
+
+    // A pointer to the previous node
+    Node* prev;
 };
 
 template<typename T>
 class LinkedList {
 public:
+    // Constructor
    LinkedList();
+
+   // Deconstructor
    ~LinkedList();
 
    int size() const;
@@ -43,22 +52,25 @@ public:
 
 private:
    Node<T>* head;
+   Node<T>* tile;
    int length;
 };
 
 
 //Constructor of Node
 template<typename T>
-Node<T>::Node(T value, Node* next) {
+Node<T>::Node(T value, Node<T>* next, Node<T>* prev) {
     this->value = value;
     this->next = next;
+    this->prev = prev;
 }
 
 //Copy constructor of the node
 template<typename T>
 Node<T>::Node(Node<T>& other) {
     this->value = other.value;
-    this->next = other.next;
+    this->next = new Node<T>(other.next);
+    this->prev = new Node<T>(other.prev);
 }
 
 
@@ -66,8 +78,14 @@ Node<T>::Node(Node<T>& other) {
 template<typename T>
 LinkedList<T>::LinkedList(){
     head = nullptr;
+    tile = nullptr;
     length = 0;
 }
+
+// template<typename T>
+// LinkedList<T>::LinkedList(LinkedList<T>& other) {
+
+// }
 
 //Deconstructor
 template<typename T>
@@ -95,7 +113,10 @@ template<typename T>
 void LinkedList<T>::removeFront() {
     if(head != nullptr) {
         Node<T>* current = head;
-        head = head->next;
+        if(head->next != nullptr) {
+            head = head->next;
+            head->prev = nullptr;
+        }
         this->length -= 1;
         delete current;
     }
@@ -105,18 +126,15 @@ void LinkedList<T>::removeFront() {
 //add the tile at the back of the list
 template<typename T>
 void LinkedList<T>::add_back(T value){
-    Node<T>* newNode = new Node<T>(value, nullptr);
-    if(head != nullptr) {
-      Node<T>* curr = head;
-      
-      while(curr->next != nullptr) {
-          curr = curr->next;
-      }
+    Node<T>* newNode = new Node<T>(value, nullptr, tile);
+    if(tile != nullptr) {
+      Node<T>* curr = tile;
       curr->next = newNode;
+      tile = newNode;
       this->length++;
-
-  } else {
+    } else {
         head = newNode;
+        tile = newNode;
         this->length++;
    }   
 }

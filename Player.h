@@ -7,9 +7,15 @@
 
 class Player {
 public:
+    // To store tiles selected from factories
     Store store;
+
+    // Player mosaic
     Board board;
+
+    // To store broken tiles
     Broken broken;
+
     // Constructor /Deconstructor
     Player(std::string playerName);
     ~Player();
@@ -26,9 +32,6 @@ public:
     // Return the name of the player
     std::string getName() const;
 
-    // Print the player's information
-    void printInfo();
-
     // Return true is selected store is full
     bool isFull(int storeNum) const;
 
@@ -39,7 +42,6 @@ public:
     bool tileCovered(int rowNum, char colour) const;
 
     // Empty stores, till the wall, move the rest to the tile bag
-    // Can only be called when 'F' is not in the broken
     void tileTheWall(TileBag* tileBag);
 
     // Calculate score according to the location of a newly added tile
@@ -50,19 +52,12 @@ public:
 
 
 private:
-
+    // Name of the player
     std::string name;
+    
+    // Score of the player
     int score;
 };
-
-
-
-
-
-
-
-
-
 
 
 #endif //PLAYER

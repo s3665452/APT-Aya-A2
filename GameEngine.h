@@ -16,24 +16,6 @@ public:
     void newGame();
     // Load a saved game
     void loadGame();
-    // Print the Factories
-    void printFactories() const;
-    void printMosaic(Player* player) const;
-    void getCommand();
-    void selectTile(int factoryNum, char tile, int storeNum);
-    void changePlayer();
-
-    //saved Game
-    void saveGame(std::string filename);
-
-    // Play a single round
-    void playOneRound();
-
-    // Set the player who has 'F' to be current player, move 'F' to the centre
-    void setFirstPlayer();
-
-    // End game result
-    void printResult();
 
     // Whether it is in the testing mode
     bool testingMode;
@@ -49,6 +31,28 @@ private:
     TileBag* tileBag;
     Factories* factories;
     LinkedList<std::string> saved;
+
+    // Print the Factories
+    void printFactories() const;
+    void printMosaic(Player* player) const;
+    void getCommand();
+    void selectTile(int factoryNum, char tile, int storeNum);
+    void changePlayer();
+
+    // Play a single round
+    void playOneRound();
+
+    // Set the player who has 'F' to be current player, move 'F' to the centre
+    void setFirstPlayer();
+
+    // End game result
+    void printResult();
+
+    // Save game to a file
+    void saveGame(std::string filename);
+
+    // Clean up memories
+    void cleanUp();
 };
 
 #endif //GAMEENGINE

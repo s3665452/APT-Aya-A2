@@ -27,27 +27,66 @@ Player::Player(std::string playerName) {
     }
 }
 
+
 Player::~Player() {
     for (int i = 0; i != MOSAIC_DIM; ++i) {
-        delete store[i];
+        delete[] store[i];
     }
     delete store;
-
 }
+
+
+Player::Player(Player& other) {
+    this->store = new char*[MOSAIC_DIM];
+    for (int i = 0; i != MOSAIC_DIM; ++i) {
+        store[i] = new char[i+1];
+        for (int n = 0; n != i+1; ++n) {
+            store[i][n] = other.store[i][n];
+        }
+    }
+
+    for (int i = 0; i != MOSAIC_DIM; ++i){
+        for (int n = 0; n != MOSAIC_DIM; ++n){
+            board[i][n].first = other.board[i][n].first;
+            board[i][n].second = other.board[i][n].second;
+        }
+    }
+    this->broken = other.broken;
+    this->name = other.name;
+    this->score = other.score;
+}
+
+
+Player::Player(Player&& other) {
+    this->store = new char*[MOSAIC_DIM];
+    for (int i = 0; i != MOSAIC_DIM; ++i) {
+        store[i] = new char[i+1];
+        for (int n = 0; n != i+1; ++n) {
+            store[i][n] = other.store[i][n];
+        }
+    }
+
+    for (int i = 0; i != MOSAIC_DIM; ++i){
+        for (int n = 0; n != MOSAIC_DIM; ++n){
+            board[i][n].first = other.board[i][n].first;
+            board[i][n].second = other.board[i][n].second;
+        }
+    }
+    this->broken = other.broken;
+    this->name = other.name;
+    this->score = other.score;
+}
+
 
 std::string Player::getName() const {
     return this->name;
 }
 
+
 int Player::getScore() const {
     return this->score;
 }
 
-void Player::printInfo() {
-    std::cout <<"Name: "<< this->name << std::endl;
-    std::cout <<"Score: "<< this->score << std::endl;
-    std::cout << std::endl;
-}
 
 bool Player::isFull(int storeNum) const{
     bool ret = false;
@@ -57,10 +96,12 @@ bool Player::isFull(int storeNum) const{
     return ret;
 }
 
+
 char Player::storeColour(int storeNum) const{
   //  std::cout << "Store colour: " << store[storeNum-1][0] << std::endl;
     return store[storeNum-1][0];
 }
+
 
 bool Player::tileCovered(int rowNum, char colour) const{
     bool ret = false;
@@ -73,6 +114,7 @@ bool Player::tileCovered(int rowNum, char colour) const{
     }
     return ret;
 }
+
 
 void Player::tileTheWall(TileBag* tileBag) {
     for(int i = 0; i < MOSAIC_DIM; i++) {
@@ -101,6 +143,7 @@ void Player::tileTheWall(TileBag* tileBag) {
     }
     emptyBroken(tileBag);
 }
+
 
 void Player::addScore(int y, int x) {
     int score = 1;

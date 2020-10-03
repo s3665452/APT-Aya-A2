@@ -1,6 +1,6 @@
 #include "TileBag.h"
 
-//Constructor of TileBag
+
 TileBag::TileBag(const char* tileBagOrder){
 
     int i = 0;
@@ -20,7 +20,7 @@ TileBag::TileBag(TileBag&& other) {
 }
 
 TileBag::~TileBag() {
-
+    clear();
 }
 
 unsigned int TileBag::size() const {
