@@ -1,26 +1,26 @@
 Factories:
 0: F
-1: L L B B
-2: B Y Y Y
-3: Y U U Y
-4: Y Y U Y
-5: L L L Y
+1: B U U R
+2: R R Y L
+3: L B B B
+4: L U U U
+5: U R Y Y
 
-Score for Player Ain: 85
+Score for Player Ain: 29
 Mosaic for Ain:
-1:         . || B Y R U L
-2:       . . || L B Y R U
-3:     . . . || U L B Y R
-4:   . . . . || R U L B Y
-5: . . . . . || Y R U L B
+1:         . || B Y . . L
+2:       . . || L B . . U
+3:     . R R || U . . Y .
+4:   . . . . || R U L . Y
+5: . B B B B || . R U . .
 broken:
 
-Score for Player Mich: 52
+Score for Player Mich: 30
 Mosaic for Mich:
-1:         . || B . R U L
-2:       . . || L B Y R U
-3:     . . . || U L B Y R
-4:   . . . . || R U . B Y
-5: . . . . . || Y R U L B
+1:         . || . . . . L
+2:       . L || . B Y R U
+3:     . . . || . L . Y R
+4:   . . . . || R U . B .
+5: . . . . . || Y . . L B
 broken:
 

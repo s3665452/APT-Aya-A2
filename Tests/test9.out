@@ -1,26 +1,26 @@
 Factories:
 0: F
-1: L L Y R
-2: R B Y Y
-3: Y U U U
-4: U Y Y L
-5: U U B B
+1: R B B Y
+2: L L B L
+3: L Y Y Y
+4: R R R R
+5: R Y Y L
 
-Score for Player Abby: 60
+Score for Player Abby: 45
 Mosaic for Abby:
-1:         . || B Y R U L
+1:         . || B . R U L
 2:       . . || L B Y R .
 3:     . . . || U L B . R
-4:   . . . . || R . L . Y
-5: . . . . . || . R U L B
+4:   . . . . || . . L . Y
+5: . . . . . || . R U . B
 broken:
 
-Score for Player Josh: 49
+Score for Player Josh: 28
 Mosaic for Josh:
 1:         . || B . . U L
-2:       . . || L B Y R U
-3:     . . . || U L B Y R
+2:       . . || L B Y . U
+3:     . . . || U L . Y R
 4:   . . . . || . . L B Y
-5: . . . . . || Y R U . .
+5: . . . . . || . R U . .
 broken:
 
