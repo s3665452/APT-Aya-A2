@@ -6,9 +6,9 @@
 #define TYPES
 
 
-#define TURNS   5
+#define MAX_ROUNDS   5
 #define MOSAIC_DIM  5
-#define TILEBAG_MAX_SIZE    100
+#define TILEBAG_SIZE    100
 #define BROKEN_MAX_SIZE 7
 
 // Initial order of the tilebag

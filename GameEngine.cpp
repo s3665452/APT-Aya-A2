@@ -5,6 +5,7 @@
 #include <cstring>
 
 GameEngine::GameEngine() {
+    // Initialise variables
     this->currentTurn = 0;
     this->playerA = nullptr;
     this->playerB = nullptr;
@@ -19,6 +20,7 @@ GameEngine::~GameEngine() {
 }
 
 void GameEngine::loadGame() {
+    // If file name does not exist, get user input from stdin
     if(loadFileName == " ") {
         std::cout << "> ";
         std::cin >> loadFileName;
@@ -27,17 +29,18 @@ void GameEngine::loadGame() {
             exitGame();
         }
     }
-
+    // Create the ifstream using the file name
     std::ifstream infile(loadFileName);
 
     std::string line;
     int lineNum = 0;
-
-    while (std::getline(infile, line) && currentTurn < TURNS) {
-       // std::cout << line << line.size() << std::endl;
+    // Keep reading lines until the end of file or reach maximum number of rounds
+    while (std::getline(infile, line) && currentTurn < MAX_ROUNDS) {
         if(lineNum == 0) {
-            if(line.size() != 100) {
+            // If the length of first line is not equal tile bag size, its not a valid file
+            if(line.size() != TILEBAG_SIZE) {
                 std::cout << "Invalid File" << std::endl;
+                // If not in testing mode, ask the user to input a new file name, otherwise exit
                 if(testingMode == false) {
                     loadFileName = " ";
                     loadGame();
@@ -47,24 +50,26 @@ void GameEngine::loadGame() {
                 }
             }
             else {
+                // Create the tile bag and factories, save the line
                 const char* ORDER = line.c_str();
                 this->tileBag = new TileBag(ORDER);
                 this->factories = new Factories(tileBag);
                 saved.add_back(line);
             }
         }
+        // If it's the second line (username of the first user), create a user, save the line
         else if (lineNum == 1) {
             this->playerA = new Player(line);
             saved.add_back(line);
         }
+        // If it's the third line (username of the second user), create a user, save the line
         else if (lineNum == 2) {
             this->playerB = new Player(line);
             saved.add_back(line);
         }
         else {
+            // create a istringstream using the line, get values
             std::istringstream is(line);
-           // std::cout << line << std::endl;
-           // printFactories();
 
             std::string turn;
             int factoryNum;
@@ -75,50 +80,52 @@ void GameEngine::loadGame() {
             is >> factoryNum;
             is >> tile;
             is >> storeNum;
-
+            // If it's the forth line, set current player to be the first player
             if(lineNum == 3) {
                 currentPlayer = playerA;
             }
-
-
+            // Validite input, only move tiles if the input satisfies
+            // 1. The first word is "turn"
+            // 2. Factory num is from 0 to 5
+            // 3. The third word is a valid tile
+            // 4. Store num is from 1 to 5
+            // 5. The selected factory contains tile of the selected colour
+            // 6. The selected store row of the player is not full
+            // 7. The selected store row of the player is empty or contains selected colour of tile
+            // 8. The position on the row of the player mosaic is not covered with tile of selected colour
+            // Or
+            // 1. Selected store number is 6 (broken)
+            // 2. The selected factory contains tile of the selected colour
+            // In this case selected tiles will be moved directly to the broken row
+            // If does not satisfy, the program will report invaild input and exit
             if((turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && currentPlayer->storeColour(storeNum) != '.') || currentPlayer->tileCovered(storeNum, tile)) && (storeNum != 6 || !contains(factories->getFactory(factoryNum), tile))) {
-                //std::string newLine = "\n";
                 if(line.size() > 1) {
                 std::cout << "Invalid Input At Line " << lineNum + 1 << std::endl;
-                // printFactories();
-                // printMosaic(currentPlayer);
-                // printMosaic(playerB);
                 std::cout << "Line: " << line << std::endl;
                 exitGame();
                 }
             }
             else {
+                // Move tiles and save the line
                 selectTile(factoryNum, tile, storeNum);
-               // std::cout << "current player: " << currentPlayer->getName() << " at line " << lineNum + 1 << std::endl;
                 saved.add_back(line);
-
+                // If factories is empty, tile the wall for players and refill factories, set the player who has 'F' as current player, go to next round
                 if(factories->isEmpty()) {
-                //std::cout << "Empty" << std::endl;
-               // printMosaic(currentPlayer);
                 setFirstPlayer();
-              //  std::cout << "First set to " << currentPlayer->getName() << std::endl;
-               // printMosaic(playerA);
                 playerA->tileTheWall(tileBag);
-                //std::cout << "P1 tiled" << std::endl;
                 playerB->tileTheWall(tileBag);
                 factories->fillFactories(tileBag);
-                //std::cout << "Filled" << std::endl;
                 currentTurn += 1;
                 }
+                // If not empty, change player
                 else {
                     changePlayer();
-                 //   std::cout << "Player changed to " << currentPlayer->getName() << std::endl;
                 }
             }
         }
         lineNum += 1;
     }
-    // If there are less than 3 lines in the file, reload
+    // If there are less than 3 lines in the file, reload if not in testing mode, otherwise exit
     if(lineNum < 3) {
         std::cout << "Invalid File" << std::endl;
         if(testingMode == false) {
@@ -128,13 +135,13 @@ void GameEngine::loadGame() {
             exitGame();
         }
     }
-
+    // If not in testing mode, continue game play until reach max number of rounds
     if(this->testingMode == false) {
         std::cout << "Azul game successfully loaded" << std::endl << std::endl;
-        if(currentTurn < TURNS) {
+        if(currentTurn < MAX_ROUNDS) {
             std::string dummy;
             getline(std::cin, dummy);
-            // changePlayer();
+            // Player until the end of the round
             while(!factories->isEmpty())
             {
                 //The turn run until the factories is empty
@@ -144,30 +151,24 @@ void GameEngine::loadGame() {
                 getCommand();
                 changePlayer();
             }
-
-            // printMosaic(playerA);
-            // printMosaic(playerB);
             setFirstPlayer();
-            // std::cout << "First player set " << currentPlayer->getName() << std::endl;
             playerA->tileTheWall(tileBag);
-            // std::cout << "PlayerA tile" << std::endl;
             playerB->tileTheWall(tileBag);
-            //  std::cout << "PlayerB tile" << std::endl;
             std::cout << playerA->getName() << " Score: " << playerA->getScore() << std::endl;
             std::cout << playerB->getName() << " Score: " << playerB->getScore() << std::endl;
             std::cout << "=== End Of Round " << currentTurn + 1 << " ===" << std::endl;
-
             factories->fillFactories(tileBag);
             currentTurn += 1;
         }
-
-        while(currentTurn < TURNS) {
+        // Keep playing until reaching max number of rounds
+        while(currentTurn < MAX_ROUNDS) {
             playOneRound();
             factories->fillFactories(tileBag);
             currentTurn += 1;
         }
         printResult();
     }
+    // If in testing mode, print factories and players' mosaics
     else {
         if(factories->isEmpty()) {
             setFirstPlayer();
@@ -182,23 +183,17 @@ void GameEngine::loadGame() {
         std::cout << "Score for Player " << playerB->getName() << ": " << playerB->getScore() << std::endl;
         printMosaic(playerB);
     }
+    // Clean up memory
     cleanUp();
 }
     
-
+// Output everything stored to a file
 void GameEngine::saveGame(std::string filename) {
     std::ofstream out(filename);
-   // while(saved.size() != 0) {
-      //  std::cout << saved.getFront() << saved.size() << std::endl;
-    //   LinkedList<std::string> copy = LinkedList<std::string>(saved);
-    //     out << copy.getFront() << std::endl;
-    //     copy.removeFront();
     for(int i = 0; i < saved.size(); i++) {
         out << saved.get(i) << std::endl;
     }
     out << std::endl;
-       // std::cout << "Front removed, size: " << saved.size() << std::endl;
-//}
     out.close();
     std::cout << "Game successfully saved to " << filename << std::endl;
 }
@@ -207,12 +202,12 @@ void GameEngine::saveGame(std::string filename) {
 void GameEngine::newGame() {
     std::string playerNameA;
     std::string playerNameB;
-
+    // Create tile bag using default tile order, create factories
     tileBag = new TileBag(TILEBAG_ORDER);
     factories = new Factories(tileBag);
     saved.add_back(TILEBAG_ORDER);
 
-    // start a new game
+    // start a new game, get player names from stdin
     std::cout << "Starting a New Game" << std::endl << std::endl;
     std::cout << "Enter a name for player 1" << std::endl << "> ";
     std::cin >> playerNameA;
@@ -225,21 +220,20 @@ void GameEngine::newGame() {
     saved.add_back(playerNameA);
     saved.add_back(playerNameB);
     std::cout << std::endl << "Let's Play!" << std::endl;
-
-    // std::cout << playerA->getName() << std::endl;
-    // std::cout << playerB->getName() << std::endl;
-
+    // Set current player to player A
     this->currentPlayer = playerA;
 
-    // >>>play 5 rounds <<<
-    while(currentTurn < TURNS) {
+    // Player until reaching max number of rounds
+    while(currentTurn < MAX_ROUNDS) {
         playOneRound();
         factories->fillFactories(tileBag);
         currentTurn += 1;
     }
     printResult();
+    // Clean up memories 
     cleanUp();
 }
+
 
 void GameEngine::playOneRound(){
     std::cout << std::endl;
@@ -253,19 +247,16 @@ void GameEngine::playOneRound(){
         getCommand();
         changePlayer();
     }
-    printMosaic(playerA);
-    printMosaic(playerB);
+    // Set the player with 'F' to be current player, tile the wall and score points
     setFirstPlayer();
-   // std::cout << "First player set " << currentPlayer->getName() << std::endl;
     playerA->tileTheWall(tileBag);
-   // std::cout << "PlayerA tile" << std::endl;
     playerB->tileTheWall(tileBag);
-   // std::cout << "PlayerB tile" << std::endl;
-
+    // Print player score at the end of the round
     std::cout << playerA->getName() << " Score: " << playerA->getScore() << std::endl;
     std::cout << playerB->getName() << " Score: " << playerB->getScore() << std::endl;
     std::cout << "=== End Of Round " << currentTurn + 1 << " ===" << std::endl;
 }
+
 
 void GameEngine::printFactories() const {
     std::cout << "Factories:" << std::endl;
@@ -298,12 +289,7 @@ void GameEngine::printMosaic(Player* player) const {
         for(int n = 0; n < MOSAIC_DIM; n++) {
             std::cout << " " << player->board[i][n].second;
         }
-        // Print underlaying colours (test)
-        // for(int n = 0; n < MOSAIC_DIM; n++) {
-        //     std::cout << " " << player->board[i][n].first;
-        // }
         std::cout << std::endl;
-       
     }
     // Print broken
     std::cout << "broken:";
@@ -322,7 +308,6 @@ void GameEngine::selectTile(int factoryNum, char tile, int storeNum) {
     while( i < selectedFactory->size()) {
         // Put F to broken directly
         if((*selectedFactory)[i] == 'F') {
-          //  std::cout << "Tile: " << "F" << std::endl;
           if(currentPlayer->broken.size() < BROKEN_MAX_SIZE) {
                 currentPlayer->broken.push_back('F');
             }
@@ -331,7 +316,6 @@ void GameEngine::selectTile(int factoryNum, char tile, int storeNum) {
         // If it is selected tile, put it to player store or broken
         else if ((*selectedFactory)[i] == tile) {
             if(storeNum != 6) {
-                //   std::cout << "Tile: " << tile << std::endl;
                 // Iterate until find empty or reach the maximum size
                 int n = 0;
                 while(currentPlayer->store[storeNum-1][n] != '.' && n < storeNum) {
@@ -362,13 +346,11 @@ void GameEngine::selectTile(int factoryNum, char tile, int storeNum) {
         }
         // If it is other tiles, put it to centre if selected factory is not centre
         else {
-         //  std::cout << "Tile: " << (*selectedFactory)[i] << std::endl;
              if(factoryNum == 0) {
                 i += 1;
              }
              else {
                  factories->getFactory(0)->push_back((*selectedFactory)[i]);
-              //   std::cout << "pushed" << std::endl;
                  selectedFactory->erase(selectedFactory->begin() + i);
              }
         }
@@ -400,17 +382,12 @@ void GameEngine::getCommand() {
         is >> factoryNum;
         is >> tile;
         is >> storeNum;
-
+        // If eof detected, clean up memories and exit
         if(std::cin.eof()){
             cleanUp();
             exitGame();
         }
-
-    // std::cout << turn << std::endl;
-    // std::cout << factoryNum << std::endl;
-    // std::cout << tile << std::endl;
-    // std::cout << storeNum << std::endl;
- 
+        // Varify inputs, if not satisfied, ask the user to input again
         if((turn != "turn" || factoryNum < 0 || factoryNum > 5 || !isTile(tile) || 
             storeNum < 1 || storeNum > 5 || !contains(factories->getFactory(factoryNum), tile) || 
             currentPlayer->isFull(storeNum) || (currentPlayer->storeColour(storeNum) != tile && 
@@ -447,7 +424,6 @@ void GameEngine::setFirstPlayer() {
         }
         i += 1;
     }
-
     if(containF == false) {
         changePlayer();
     }
@@ -455,14 +431,10 @@ void GameEngine::setFirstPlayer() {
 
 // End game result
 void GameEngine::printResult() {
-    // Test
-    printMosaic(playerA);
-    printMosaic(playerB);
     std::cout<<std::endl;
     std::cout<<"=== GAME OVER ===";
-    std::cout<<std::endl;
-                            
-    // winner of the game
+    std::cout<<std::endl;        
+    // Compare scores to decide the winner of the game
     std::cout << std::endl;
     std::cout << "Final Scores: " << std::endl;
     std::cout << playerA->getName()<< ": " << playerA->getScore() << std::endl; 

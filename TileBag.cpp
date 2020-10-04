@@ -3,7 +3,7 @@
 
 TileBag::TileBag(const char* tileBagOrder){
     int i = 0;
-    while(tileBagOrder[i] != '\0' && i != TILEBAG_MAX_SIZE){
+    while(tileBagOrder[i] != '\0' && i != TILEBAG_SIZE){
         enqueue(tileBagOrder[i]);
         i++;
     }

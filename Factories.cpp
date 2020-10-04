@@ -2,9 +2,11 @@
 #include "TileBag.h"
 #include "vector"
 
+
 Factories::Factories(TileBag* tileBag) {
     fillFactories(tileBag);
 }
+
 
 Factories::~Factories() {
 
@@ -40,6 +42,3 @@ bool Factories::isEmpty() {
     }
     return ret;
 }
-
-
-

@@ -88,6 +88,7 @@ int Player::getScore() const {
 
 bool Player::isFull(int storeNum) const{
     bool ret = false;
+    // Check if the last element in a row is '.'
     if(store[storeNum - 1][storeNum - 1] != '.') {
         ret = true;
     }
@@ -103,6 +104,7 @@ char Player::storeColour(int storeNum) const{
 bool Player::tileCovered(int rowNum, char colour) const{
     bool ret = false;
     int i = 0;
+    // Find the position of the colour in the row
     while(board[rowNum - 1][i].first != colour) {
         i += 1;
     }
@@ -167,7 +169,6 @@ void Player::addScore(int y, int x) {
     }
     // Add score to player score
     this->score += score;
-   // std::cout << board[y][x].second << " " << score << " added" << std::endl;
 }
 
 
@@ -179,12 +180,7 @@ void Player::emptyBroken(TileBag* tileBag) {
     else {
         this->score -= BROKEN_DEDUCTION[broken.size()];
     }
-    
-  //  std::cout << "Decuct " << BROKEN_DEDUCTION[broken.size()] << std::endl;
-
     for(long unsigned int n = 0; n < broken.size(); n++) {
-        // std::cout << "enqueue broken" << n;
-        // std::cout << broken[n] << std::endl;
         if(broken[n] != 'F') {
         tileBag->enqueue(broken[n]);
         }

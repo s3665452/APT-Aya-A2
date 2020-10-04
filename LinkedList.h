@@ -3,12 +3,14 @@
 #ifndef LINKEDLIST
 #define LINKEDLIST
 
-#include <iostream>
 
 template<typename T>
 class Node {
 public:	
+    // Constructor for Node
     Node(T value, Node* next, Node* prev);
+
+    // Copy constructor
 	Node(Node& other);
     
     // Value stored in the node
@@ -30,27 +32,23 @@ public:
    // Deconstructor
    ~LinkedList();
 
+    // Return size of the linked list
    int size() const;
 
+    // Return the first value 
    T getFront() const;
 
+    // Return the value in the index
    T get(int index) const;
 
-    /**
-    * Add the tile to the back of the Linked List
-    */
+    // Add the tile to the back of the Linked List   
    void add_back(T value);
 
-    /**
-    * Remove the tile at the front of the Linked List
-    */
+    // Remove the tile at the front of the Linked List
    void removeFront();
-
-    /**
-    * Removes all tiles from the Linked List
-    */
+    
+    // Removes all tiles from the Linked List
    void clear(); 
-   void printAll();
 
 private:
    Node<T>* head;
@@ -84,22 +82,19 @@ LinkedList<T>::LinkedList(){
     length = 0;
 }
 
-// template<typename T>
-// LinkedList<T>::LinkedList(LinkedList<T>& other) {
-
-// }
-
 //Deconstructor
 template<typename T>
 LinkedList<T>::~LinkedList(){
     clear();
 }
 
+// Return the size of the linked list
 template<typename T>
 int LinkedList<T>::size() const{
     return this->length;
 }
 
+// Return the value in the index
 template<typename T>
 T LinkedList<T>::get(int index) const {
     T ret = T();
@@ -168,16 +163,6 @@ void LinkedList<T>::clear(){
     this->length = 0;
 }
 
-// Print all tiles (for testing)
-template<typename T>
-void LinkedList<T>::printAll() {
-    Node<T>* curr = head;
-    while(curr->next != nullptr){
-        std::cout << curr->tile ;
-        curr = curr->next;
-    }
-    std::cout << curr->tile << std::endl;
-}
 
 #endif //LINKEDLIST
 

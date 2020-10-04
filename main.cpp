@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <memory>
 #include <cstring>
 #include "Types.h"
 #include "Player.h"
@@ -17,7 +16,7 @@ void newGame();
 void loadGame();
 
 int main(int argc, char *argv[]){
-
+    // If there are more than 2 arguments, check if the user choose the testing mode, otherwise open menu
     if(argc > 2) {
         if(strcmp(argv[1], "-t") == 0) {
             GameEngine* gameEngine = new GameEngine();
@@ -34,12 +33,14 @@ int main(int argc, char *argv[]){
     return EXIT_SUCCESS;
 }
 
+// Print the menu
 void openMenu(){
     std::cout << std::endl << "Menu" << std::endl << "----" << std::endl << "1. New Game" << std::endl
     << "2. Load Game" << std::endl << "3. Credits" << std::endl << "4. Quit" << std::endl << std::endl;
     getMenuChoice();
 }
 
+// Print credits of developers
 void printCredits(){
     std::cout << std::endl << "----------------------------------" << std::endl << "Name: Adabel Choi" << std::endl
     << "Student ID: S3758949" << std::endl << "Email: S3758949@student.rmit.edu.au" << std::endl << "Name: Andong Wang" << std::endl
@@ -47,7 +48,7 @@ void printCredits(){
     << "Student ID: S3748401" << std::endl << "Email: S3748401@student.rmit.edu.au" << std::endl << "----------------------------------" << std::endl;
 }
 
-
+// Get menu choice input from user
 void getMenuChoice(){
     int choice = 0;
     std::cout << "> ";
