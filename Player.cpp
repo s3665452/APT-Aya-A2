@@ -6,20 +6,18 @@
 Player::Player(std::string playerName) {
     this->name = playerName;
     this->score = 0;
-
+    // Allocate memory for store, fill it with '.'
     this->store = new char*[MOSAIC_DIM];
     for (int i = 0; i != MOSAIC_DIM; ++i) {
         store[i] = new char[i+1];
         for (int n = 0; n != i+1; ++n) {
-           // std::cout << "store " << i << n; 
             store[i][n] = '.';
         }
     }
-
+    // Fill the board with '.'
     int index = 0;
     for (int i = 0; i != MOSAIC_DIM; ++i){
         for (int n = 0; n != MOSAIC_DIM; ++n){
-          //   std::cout << "board " << i << n; 
             board[i][n].first = MOSAIC_ORDER[index];
             board[i][n].second = '.';
             index += 1;
@@ -98,7 +96,6 @@ bool Player::isFull(int storeNum) const{
 
 
 char Player::storeColour(int storeNum) const{
-  //  std::cout << "Store colour: " << store[storeNum-1][0] << std::endl;
     return store[storeNum-1][0];
 }
 
@@ -122,20 +119,14 @@ void Player::tileTheWall(TileBag* tileBag) {
             // Find and cover the tile spot on the board
             int n = 0;
             while(board[i][n].first != storeColour(i + 1)) {
-                // std::cout << storeColour(i + 1) << std::endl;
-                // std::cout << "board " << i << n << ": ";
-                // std::cout << board[i][n].first << std::endl;
                 n += 1;
             }
-           // std::cout << "Board " << i << n << "set to " << storeColour(i + 1) << std::endl;
             board[i][n].second = storeColour(i + 1);
             // Calculate and add points
             addScore(i, n);
-            // Set the first tile in the store to empty, "move" the rest to the tile bag
+            // "Move" tiles to the tile bag
             store[i][0] = '.';
             for(int index = 1; index < i + 1; index++) {
-                // std::cout << "enqueue " << i << index;
-                // std::cout << store[i][index] << std::endl;
                 tileBag->enqueue(store[i][index]);
                 store[i][index] = '.';
             }

@@ -15,10 +15,7 @@ GameEngine::GameEngine() {
 }
 
 GameEngine::~GameEngine() {
-    delete playerA;
-    delete playerB;
-    delete tileBag;
-    delete factories;
+    cleanUp();
 }
 
 void GameEngine::loadGame() {
@@ -185,6 +182,7 @@ void GameEngine::loadGame() {
         std::cout << "Score for Player " << playerB->getName() << ": " << playerB->getScore() << std::endl;
         printMosaic(playerB);
     }
+    cleanUp();
 }
     
 
@@ -240,6 +238,7 @@ void GameEngine::newGame() {
         currentTurn += 1;
     }
     printResult();
+    cleanUp();
 }
 
 void GameEngine::playOneRound(){
@@ -397,12 +396,13 @@ void GameEngine::getCommand() {
         saveGame(fileName);
         getCommand();
     } 
-        else {
+    else {
         is >> factoryNum;
         is >> tile;
         is >> storeNum;
 
         if(std::cin.eof()){
+            cleanUp();
             exitGame();
         }
 
@@ -475,7 +475,6 @@ void GameEngine::printResult() {
     } else {
         std::cout << "Player " << playerB->getName() <<" wins!"<< std::endl;
     }                                     
-    delete factories;
 }
 
 

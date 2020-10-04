@@ -1,6 +1,5 @@
 #include "Types.h"
 
-
 bool isTile(char c) {
     bool ret = false;
     if(c == 'R' || c == 'Y' || c == 'B' || c == 'L' || c == 'U' || c == 'F') {
@@ -9,10 +8,12 @@ bool isTile(char c) {
     return ret;
 }
 
+
 void exitGame(){
     std::cout << std::endl << "Goodbye" << std::endl;
     exit(EXIT_SUCCESS);
 }
+
 
 bool contains(std::vector<char>* factory, char tile) {
     bool ret = false;
